@@ -26,7 +26,7 @@ public class SocialMenuUI : IUserInterface
     private TextMeshProUGUI _tDescription;
 
     private TextMeshProUGUI _tSideStatus;
-
+      
     private TextMeshProUGUI _tGroupName;
 
     private TextMeshProUGUI _tFriendshipValue;

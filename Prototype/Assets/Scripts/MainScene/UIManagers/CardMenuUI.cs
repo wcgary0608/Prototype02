@@ -7,7 +7,7 @@ using TMPro;
 public class CardMenuUI : IUserInterface
 {
     private Button _btnAllocate;
-
+        
     private Button _btnCompose;
 
     private GameObject _oAllocationPanel;
