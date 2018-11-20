@@ -27,6 +27,7 @@ public class InventoryMenuUI : IUserInterface
 
     public InventoryMenuUI(MainSceneTreeNodeManager center) : base(center)
     {
+        Initialize();
     }
 
     public override void Initialize()
@@ -52,13 +53,15 @@ public class InventoryMenuUI : IUserInterface
 
     private void GetUIComponents()
     {
-        //temporary variables
         var MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
+        m_RootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.InventoryMenu);
+        //temporary variables
+        
         var itemList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.ItemList);
         var itemViewport = UnityTool.FindChildGameObject(itemList, MainUIComponentCollection.Viewport);
 
         //UI Components
-        m_RootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.InventoryMenu);
+        
 
         btn_all = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.AllBtn);
         btn_drug = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.DrugBtn);
@@ -73,5 +76,6 @@ public class InventoryMenuUI : IUserInterface
 
         btn_useItem = UITool.GetUIComponent<Button>(MainUIComponentCollection.UseBtn);
         btn_dropItem = UITool.GetUIComponent<Button>(MainUIComponentCollection.DropBtn);
+
     }
 }

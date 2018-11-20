@@ -67,7 +67,39 @@
         public const string ShenFa = "ShenFa";
         public const string Text = "Text";
         public const string Luck = "Luck";
-        public const string HpBar = "HPBar";
-        public const string MpBar = "MPBar";
+        public const string HpBar = "HpBar";
+        public const string MpBar = "MpBar";
+        //SocialMenuUI
+        public const string NpcList = "NpcList";
+        public const string NeiGongList = "NeiGongList";
+        public const string CardList = "CardList";
+        public const string InfoList = "InfoList";
+        public const string SocialMenu = "SocialMenu";
+        public const string AllNpcBtn = "AllNpcBtn";
+        public const string FriendBtn = "FriendBtn";
+        public const string NormalBtn = "NormalBtn";
+        public const string EnermyBtn = "EnermyBtn";
+        public const string NpcDetailPanel = "NpcDetailPanel";
+        public const string CharacterImage = "CharacterImage";
+        public const string ReturnToRootBtn = "ReturnToRootBtn";
+        public const string NpcDescription = "NpcDescription";
+        public const string NpcSideStatus = "NpcSideStatus";
+        public const string NpcGroupName = "NpcGroupName";
+        public const string FriendShipValue = "FriendshipValue";
+
+        //CardMenuUI
+        public const string CardGroupList = "CardGroupList";
+        public const string CurCardsList = "CurCardsList";
+        public const string AllCardList = "AllCardList";
+        public const string CardMenu = "CardMenu";
+        public const string AllocateCardBtn = "AllocateCardBtn";
+        public const string ComposeCardBtn = "ComposeCardBtn";
+        public const string AllocateCardPanel = "AllocateCardPanel";
+        public const string CurGroupCount = "CurGroupCount";
+        public const string CloseAllocationPanelBtn = "CloseAllocationPanelBtn";
+        public const string AddGroupBtn = "AddGroupBtn";
+        public const string DeleteGroupBtn = "DeleteGroupBtn";
+        public const string TotalCardCount = "TotalCardCount";
+        public const string CurGroupName = "CurGroupName";
     }
 }

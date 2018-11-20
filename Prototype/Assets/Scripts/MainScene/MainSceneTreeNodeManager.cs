@@ -10,6 +10,16 @@ public class MainSceneTreeNodeManager
 
     private MenuUI UI_Menu;
 
+    private StatusMenuUI _statusMenuUI;
+
+    private InventoryMenuUI _inventoryMenuUI;
+
+    private NeiGongMenuUI _neiGongMenuUI;
+
+    private CardMenuUI _cardMenuUI;
+
+    private SocialMenuUI _socialMenuUI;
+
     //GameManagers
     private InputManager m_InputManager;
 
@@ -45,6 +55,12 @@ public class MainSceneTreeNodeManager
         UI_MainPart = new MainPartUI(this);
 
         UI_Menu = new MenuUI(this);
+
+        _statusMenuUI = new StatusMenuUI(this);
+        _inventoryMenuUI = new InventoryMenuUI(this);
+        _neiGongMenuUI = new NeiGongMenuUI(this);
+        _cardMenuUI = new CardMenuUI(this);
+        _socialMenuUI = new SocialMenuUI(this);
     }
 
     public bool DoAction(string key, out string outputParams)

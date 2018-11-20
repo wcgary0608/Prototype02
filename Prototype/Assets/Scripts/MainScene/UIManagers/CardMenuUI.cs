@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Assets.Scripts.MainScene;
 
 public class CardMenuUI : IUserInterface
 {
-    private Button _btnAllocate;
+    private Button _btnAllocateCard;
         
-    private Button _btnCompose;
+    private Button _btnComposeCard;
 
     private GameObject _oAllocationPanel;
 
@@ -16,7 +17,7 @@ public class CardMenuUI : IUserInterface
 
     private TextMeshProUGUI _tCurGroupCount;
 
-    private Button _btnReturn;
+    private Button _btnCloseAllocationPanel;
 
     private Button _btnAddGroup;
 
@@ -58,35 +59,38 @@ public class CardMenuUI : IUserInterface
 
     private void GetUIComponents()
     {
+        var MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
+        m_RootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.CardMenu);
+        _oAllocationPanel = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.AllocateCardPanel);
         //Temporary Variables
-        var MenuUI = UITool.FindUIGameObject("MenuUI");
-        var cardGroupList = UnityTool.FindChildGameObject(_oAllocationPanel, "cardGroupList");
-        var cardGroupViewport = UnityTool.FindChildGameObject(cardGroupList, "Viewport");
-        var curGroupList = UnityTool.FindChildGameObject(_oAllocationPanel, "curGroupList");
-        var curGroupViewport = UnityTool.FindChildGameObject(curGroupList, "Viewport");
-        var allCardList = UnityTool.FindChildGameObject(m_RootUI, "allCardList");
-        var allCardViewport = UnityTool.FindChildGameObject(allCardList, "Viewport");
+
+        var cardGroupList = UnityTool.FindChildGameObject(_oAllocationPanel, MainUIComponentCollection.CardGroupList);
+        var cardGroupViewport = UnityTool.FindChildGameObject(cardGroupList, MainUIComponentCollection.Viewport);
+        var curCardsList = UnityTool.FindChildGameObject(_oAllocationPanel, MainUIComponentCollection.CurCardsList);
+        var curCardsViewport = UnityTool.FindChildGameObject(curCardsList, MainUIComponentCollection.Viewport);
+        var allCardList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.AllCardList);
+        var allCardViewport = UnityTool.FindChildGameObject(allCardList, MainUIComponentCollection.Viewport);
 
 
         //UI Components
-        m_RootUI = UnityTool.FindChildGameObject(MenuUI, "CardMenu");
+        
 
-        _btnAllocate = UITool.GetUIComponent<Button>(m_RootUI, "allocateBtn");
-        Debug.Log(_btnAllocate.name);
-        _btnCompose = UITool.GetUIComponent<Button>(m_RootUI, "composeBtn");
+        _btnAllocateCard = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.AllocateCardBtn);
+        Debug.Log(_btnAllocateCard.name);
+        _btnComposeCard = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.ComposeCardBtn);
 
-        _oAllocationPanel = UnityTool.FindChildGameObject(m_RootUI, "allocateCardPanel");
-        _oCardGroupContent = UnityTool.FindChildGameObject(cardGroupViewport, "Content");
-        _tCurGroupCount = UITool.GetUIComponent<TextMeshProUGUI>(_oAllocationPanel, "curGroupCount");
-        _btnReturn = UITool.GetUIComponent<Button>(_oAllocationPanel, "returnBtn");
-        _btnAddGroup = UITool.GetUIComponent<Button>(_oAllocationPanel, "addGroupBtn");
-        _btnDeleteGroup = UITool.GetUIComponent<Button>(_oAllocationPanel, "deleteGroupBtn");
-        _oCurGroupContent = UnityTool.FindChildGameObject(curGroupViewport, "Content");
+        
+        _oCardGroupContent = UnityTool.FindChildGameObject(cardGroupViewport, MainUIComponentCollection.Content);
+        _tCurGroupCount = UITool.GetUIComponent<TextMeshProUGUI>(_oAllocationPanel, MainUIComponentCollection.CurGroupCount);
+        _btnCloseAllocationPanel = UITool.GetUIComponent<Button>(_oAllocationPanel, MainUIComponentCollection.CloseAllocationPanelBtn);
+        _btnAddGroup = UITool.GetUIComponent<Button>(_oAllocationPanel, MainUIComponentCollection.AddGroupBtn);
+        _btnDeleteGroup = UITool.GetUIComponent<Button>(_oAllocationPanel, MainUIComponentCollection.DeleteGroupBtn);
+        _oCurGroupContent = UnityTool.FindChildGameObject(curCardsViewport, MainUIComponentCollection.Content);
 
-        _tTotalCardCount = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, "totalCardCount");
-        _tCurGroupName = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, "curGroupName");
+        _tTotalCardCount = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.TotalCardCount);
+        _tCurGroupName = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.CurGroupName);
 
-        _oAllCardContent = UnityTool.FindChildGameObject(allCardViewport, "Content");
+        _oAllCardContent = UnityTool.FindChildGameObject(allCardViewport, MainUIComponentCollection.Content);
 
     }
 }

@@ -59,6 +59,7 @@ public class StatusMenuUI : IUserInterface
     public override void Initialize()
     {
         GetUIComponents();
+
     }
 
     public override void Release()
@@ -78,8 +79,11 @@ public class StatusMenuUI : IUserInterface
 
     private void GetUIComponents()
     {
-        ///temporary variables
         var obj_MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
+        m_RootUI = UnityTool.FindChildGameObject(obj_MenuUI, MainUIComponentCollection.StatusMenu);
+
+        ///temporary variables
+        
         var hpBar = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.HpBar);
         var mpBar = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.MpBar);
         var buffList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.BuffList);
@@ -92,7 +96,7 @@ public class StatusMenuUI : IUserInterface
         var accessory = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.Accessory);
 
         ///UI Components
-        m_RootUI = UnityTool.FindChildGameObject(obj_MenuUI, MainUIComponentCollection.StatusMenu);
+        
 
         i_hpFill = UITool.GetUIComponent<Image>(hpBar, MainUIComponentCollection.FillImg);
         t_hpValue = UITool.GetUIComponent<TextMeshProUGUI>(hpBar, MainUIComponentCollection.HpValue);

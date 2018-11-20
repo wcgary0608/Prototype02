@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Assets.Scripts.MainScene;
 
 public class SocialMenuUI : IUserInterface
 {
@@ -23,11 +24,11 @@ public class SocialMenuUI : IUserInterface
 
     private Button _btnReturnToRoot;
 
-    private TextMeshProUGUI _tDescription;
+    private TextMeshProUGUI _tNpcDescription;
 
-    private TextMeshProUGUI _tSideStatus;
+    private TextMeshProUGUI _tNpcSideStatus;
       
-    private TextMeshProUGUI _tGroupName;
+    private TextMeshProUGUI _tNpcGroupName;
 
     private TextMeshProUGUI _tFriendshipValue;
 
@@ -39,6 +40,8 @@ public class SocialMenuUI : IUserInterface
 
     public SocialMenuUI(MainSceneTreeNodeManager center) : base(center)
     {
+        GetUIComponents();
+        HideRootUI();
     }
 
     public override void Initialize()
@@ -63,41 +66,44 @@ public class SocialMenuUI : IUserInterface
 
     private void GetUIComponents()
     {
+        var MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
+        m_RootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.SocialMenu);
+        _oNpcDetailPanel = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.NpcDetailPanel);
         //Temporary Variables
-        var MenuUI = UITool.FindUIGameObject("MenuUI");
-        var npcList = UnityTool.FindChildGameObject(m_RootUI, "npcList");
-        var npcViewport = UnityTool.FindChildGameObject(m_RootUI, "Viewport");
 
-        var neiGongList = UnityTool.FindChildGameObject(_oNpcDetailPanel, "neiGongList");
-        var neiGongViewport = UnityTool.FindChildGameObject(neiGongList, "Viewport");
-        var cardList = UnityTool.FindChildGameObject(_oNpcDetailPanel, "cardList");
-        var cardViewport = UnityTool.FindChildGameObject(cardList, "Viewport");
-        var infoList = UnityTool.FindChildGameObject(_oNpcDetailPanel, "infoList");
-        var infoViewport = UnityTool.FindChildGameObject(infoList, "Viewport");
+        var npcList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.NpcList);
+        var npcViewport = UnityTool.FindChildGameObject(npcList, MainUIComponentCollection.Viewport);
+
+        var neiGongList = UnityTool.FindChildGameObject(_oNpcDetailPanel, MainUIComponentCollection.NeiGongList);
+        var neiGongViewport = UnityTool.FindChildGameObject(neiGongList, MainUIComponentCollection.Viewport);
+        var cardList = UnityTool.FindChildGameObject(_oNpcDetailPanel, MainUIComponentCollection.CardList);
+        var cardViewport = UnityTool.FindChildGameObject(cardList, MainUIComponentCollection.Viewport);
+        var infoList = UnityTool.FindChildGameObject(_oNpcDetailPanel, MainUIComponentCollection.InfoList);
+        var infoViewport = UnityTool.FindChildGameObject(infoList, MainUIComponentCollection.Viewport);
 
 
         //UI Components
-        m_RootUI = UnityTool.FindChildGameObject(MenuUI, "SocialMenu");
+        
 
-        _btnAll = UITool.GetUIComponent<Button>(m_RootUI, "allBtn");
-        _btnFriend = UITool.GetUIComponent<Button>(m_RootUI, "friendBtn");
-        _btnNormal = UITool.GetUIComponent<Button>(m_RootUI, "normalBtn");
-        _btnEnermy = UITool.GetUIComponent<Button>(m_RootUI, "enermyBtn");
+        _btnAll = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.AllNpcBtn);
+        _btnFriend = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.FriendBtn);
+        _btnNormal = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.NormalBtn);
+        _btnEnermy = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.EnermyBtn);
 
-        _oNpcContent = UnityTool.FindChildGameObject(npcViewport, "Content");
+        _oNpcContent = UnityTool.FindChildGameObject(npcViewport, MainUIComponentCollection.Content);
 
-        _oNpcDetailPanel = UnityTool.FindChildGameObject(m_RootUI, "npcDetailPanel");
-        _imgCharacter = UITool.GetUIComponent<Image>(_oNpcDetailPanel, "characterImage");
-        _btnReturnToRoot = UITool.GetUIComponent<Button>(_oNpcDetailPanel, "returnToRootBtn");
-        _tDescription = UITool.GetUIComponent<TextMeshProUGUI>(_oNpcDetailPanel, "description");
-        _tSideStatus = UITool.GetUIComponent<TextMeshProUGUI>(_oNpcDetailPanel, "sideStatus");
-        _tGroupName = UITool.GetUIComponent<TextMeshProUGUI>(_oNpcDetailPanel, "groupName");
-        _tFriendshipValue = UITool.GetUIComponent<TextMeshProUGUI>(_oNpcDetailPanel, "friendshipValue");
+        
+        _imgCharacter = UITool.GetUIComponent<Image>(_oNpcDetailPanel, MainUIComponentCollection.CharacterImage);
+        _btnReturnToRoot = UITool.GetUIComponent<Button>(_oNpcDetailPanel, MainUIComponentCollection.ReturnToRootBtn);
+        _tNpcDescription = UITool.GetUIComponent<TextMeshProUGUI>(_oNpcDetailPanel, MainUIComponentCollection.NpcDescription);
+        _tNpcSideStatus = UITool.GetUIComponent<TextMeshProUGUI>(_oNpcDetailPanel, MainUIComponentCollection.NpcSideStatus);
+        _tNpcGroupName = UITool.GetUIComponent<TextMeshProUGUI>(_oNpcDetailPanel, MainUIComponentCollection.NpcGroupName);
+        _tFriendshipValue = UITool.GetUIComponent<TextMeshProUGUI>(_oNpcDetailPanel, MainUIComponentCollection.FriendShipValue);
 
-        _oNeiGongContent = UnityTool.FindChildGameObject(neiGongViewport, "Content");
-        _oCardContent = UnityTool.FindChildGameObject(cardViewport, "Content");
-        _oInfoContent = UnityTool.FindChildGameObject(infoViewport, "Content");
-
+        _oNeiGongContent = UnityTool.FindChildGameObject(neiGongViewport, MainUIComponentCollection.Content);
+        _oCardContent = UnityTool.FindChildGameObject(cardViewport, MainUIComponentCollection.Content);
+        _oInfoContent = UnityTool.FindChildGameObject(infoViewport, MainUIComponentCollection.Content);
+        Debug.Log(_oNeiGongContent.name);
     }
 
 }
