@@ -103,7 +103,7 @@ public class SocialMenuUI : IUserInterface
         _oNeiGongContent = UnityTool.FindChildGameObject(neiGongViewport, MainUIComponentCollection.Content);
         _oCardContent = UnityTool.FindChildGameObject(cardViewport, MainUIComponentCollection.Content);
         _oInfoContent = UnityTool.FindChildGameObject(infoViewport, MainUIComponentCollection.Content);
-        Debug.Log(_oNeiGongContent.name);
+
     }
 
 }
