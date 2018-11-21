@@ -51,8 +51,11 @@ public class NeiGongMenuUI : IUserInterface
 
     private void GetUIComponents()
     {
-        //temporary variables
         var MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
+        m_RootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.NeiGongMenu);
+
+        //temporary variables
+        
         var list = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.List);
         var listViewport = UnityTool.FindChildGameObject(list, MainUIComponentCollection.Viewport);
         var chapterList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.ChapterList);
@@ -63,7 +66,7 @@ public class NeiGongMenuUI : IUserInterface
         var awardViewport = UnityTool.FindChildGameObject(awardList, MainUIComponentCollection.Viewport);
 
         //UI Components
-        m_RootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.NeiGongMenu);
+       
         obj_listContent = UnityTool.FindChildGameObject(listViewport, MainUIComponentCollection.Content);
         t_name = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Name);
         t_quality = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Quality);
