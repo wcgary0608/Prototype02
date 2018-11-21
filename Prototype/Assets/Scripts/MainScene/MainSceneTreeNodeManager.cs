@@ -63,7 +63,7 @@ public class MainSceneTreeNodeManager
         _socialMenuUI = new SocialMenuUI(this);
     }
 
-    public bool DoAction(string key, out string outputParams)
+    public bool DoAction(string key, out string outputParams, string inputParams = "")
     {
         outputParams = "";
         bool localSuccess = false;
@@ -76,6 +76,48 @@ public class MainSceneTreeNodeManager
             default:
                 return localSuccess;
         }
+    }
+
+    public bool OpenSpecificMenu(string menuKey)
+    {
+        CloseAllMenus();
+
+        bool localSuccess = false;
+        switch (menuKey)
+        {
+            case UIMenuKey.StatusMenu:
+                localSuccess = _statusMenuUI.ShowRootUI();
+                return localSuccess;
+
+            case UIMenuKey.InventoryMenu:
+                localSuccess = _inventoryMenuUI.ShowRootUI();
+                return localSuccess;
+
+            case UIMenuKey.NeiGongMenu:
+                localSuccess = _neiGongMenuUI.ShowRootUI();
+                return localSuccess;
+
+            case UIMenuKey.CardMenu:
+                localSuccess = _cardMenuUI.ShowRootUI();
+                return localSuccess;
+
+            case UIMenuKey.SocialMenu:
+                localSuccess = _socialMenuUI.ShowRootUI();
+                return localSuccess;
+
+            default:
+                return localSuccess;
+        }
+
+    }
+
+    private void CloseAllMenus()
+    {
+        _statusMenuUI.HideRootUI();
+        _inventoryMenuUI.HideRootUI();
+        _neiGongMenuUI.HideRootUI();
+        _cardMenuUI.HideRootUI();
+        _socialMenuUI.HideRootUI();
     }
 
     private bool SwitchMenuUI(out string error)

@@ -16,10 +16,12 @@ public class IUserInterface
         return m_bActive;
     }
 
-    public virtual void ShowRootUI()
+    public virtual bool ShowRootUI()
     {
         m_RootUI.SetActive(true);
         m_bActive = true;
+
+        return m_bActive;
     }
 
     public virtual void HideRootUI()
