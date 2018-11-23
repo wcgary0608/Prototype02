@@ -22,6 +22,8 @@ public class StaticData {
 
     private List<string> _listPlayerStatusData;
 
+    private List<string> _listPlayerBuff;
+
     public void InitializeStaticData()
     {
         InitializeBuffDictionary();
@@ -33,10 +35,17 @@ public class StaticData {
     private void InitializeBuffDictionary()
     {
         _dicBuff = new Dictionary<string, Buff>();
+        //Load buff data
+
+        //Generate Test buff Data
+        _dicBuff.Add("buff01" ,new Buff("buff01", "神行", "每消耗10点行动力，额外获得1点行动力。", BuffType.buff));
+
     }
 
     private void InitializePlayerStatusData(string rawData)
     {
+        InitializeTestBuffList();
+
         _listPlayerStatusData = new List<string>();
 
         if (rawData == "")
@@ -45,12 +54,18 @@ public class StaticData {
             //Load Player data from json file
             return;
 
-
     }
 
     private void GenerateDefaultPlayerStatus()
     {
 
+    }
+
+    private List<string> InitializeTestBuffList()
+    {
+        _listPlayerBuff = new List<string>();
+
+        return _listPlayerBuff;
     }
 
 }

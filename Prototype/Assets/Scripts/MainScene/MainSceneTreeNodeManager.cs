@@ -1,27 +1,45 @@
 ﻿using Assets.Scripts.MainScene;
+using System;
+using UnityEngine;
 
 public class MainSceneTreeNodeManager
 {
+
+    #region Singleton
+    private static MainSceneTreeNodeManager _instance;
+    public static MainSceneTreeNodeManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+    private MainSceneTreeNodeManager() { }
+
+    #endregion
+
     private SceneStateController m_SceneController;
 
     //UIManagers
 
-    private MainPartUI UI_MainPart;
+    private MainPartUI _uiMainPart;
 
-    private MenuUI UI_Menu;
+    private MenuUI _uiMenu;
 
-    private StatusMenuUI _statusMenuUI;
+    private StatusMenuUI _uiStatusMenu;
 
-    private InventoryMenuUI _inventoryMenuUI;
+    private InventoryMenuUI _uiInventoryMenu;
 
-    private NeiGongMenuUI _neiGongMenuUI;
+    private NeiGongMenuUI _uiNeiGongMenu;
 
-    private CardMenuUI _cardMenuUI;
+    private CardMenuUI _uiCardMenu;
 
-    private SocialMenuUI _socialMenuUI;
+    private SocialMenuUI _uiSocialMenu;
 
     //GameManagers
-    private InputManager m_InputManager;
+    private InputManager _mInputManager;
+
+    private PlayerManager _mPlayerManager;
 
     public MainSceneTreeNodeManager(SceneStateController controller)
     {
@@ -37,30 +55,34 @@ public class MainSceneTreeNodeManager
 
     public void Update()
     {
-        m_InputManager.Update();
+        _mInputManager.Update();
     }
 
     public void FixedUpdate()
     {
-        m_InputManager.FixedUpdate();
+        _mInputManager.FixedUpdate();
     }
 
     private void InitializeGameManagers()
     {
-        m_InputManager = new InputManager(this);
+        _mInputManager = new InputManager(this);
+
+        _mPlayerManager = new PlayerManager(this);
     }
 
     private void InitializeUIManagers()
     {
-        UI_MainPart = new MainPartUI(this);
+        _uiMainPart = new MainPartUI(this);
 
-        UI_Menu = new MenuUI(this);
+        _uiMenu = new MenuUI(this);
 
-        _statusMenuUI = new StatusMenuUI(this);
-        _inventoryMenuUI = new InventoryMenuUI(this);
-        _neiGongMenuUI = new NeiGongMenuUI(this);
-        _cardMenuUI = new CardMenuUI(this);
-        _socialMenuUI = new SocialMenuUI(this);
+        _uiStatusMenu = new StatusMenuUI(this);
+        _uiStatusMenu.Initialize();
+        _uiInventoryMenu = new InventoryMenuUI(this);
+        _uiNeiGongMenu = new NeiGongMenuUI(this);
+        _uiCardMenu = new CardMenuUI(this);
+        _uiCardMenu.Initialize();
+        _uiSocialMenu = new SocialMenuUI(this);
     }
 
     public bool DoAction(string key, out string outputParams, string inputParams = "")
@@ -71,11 +93,74 @@ public class MainSceneTreeNodeManager
         {
             case DoActionKey.SwitchMenuUI:
                 localSuccess = SwitchMenuUI(out outputParams);
-                return localSuccess;
+                break;
+
+            case DoActionKey.InitializeStatusMenuComponents:
+                localSuccess = InitializeStatusMenuComponents(out outputParams);
+                break;
+
+            case DoActionKey.SwitchBuffDescription:
+                localSuccess = SwitchBuffDescription(inputParams);
+                break;
 
             default:
-                return localSuccess;
+                break;
         }
+        return localSuccess;
+    }
+
+    private bool SwitchBuffDescription(string buffKey)
+    {
+        bool isOn = _uiStatusMenu.IsBuffDescriptionOn();
+
+        if (!isOn)
+            _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenu.buffDescription, buffKey);
+
+        _uiStatusMenu.SwitchBuffDescriptionPanel();
+
+        return true;
+    }
+
+    public bool InitializeStatusMenuComponents(out string error)
+    {
+        error = "";
+
+        //hp,mp
+        int curHp = _mPlayerManager.GetCurHp();
+        int maxHp = _mPlayerManager.GetMaxHp();
+        string hpValueText = string.Format("{0} / {1}", curHp, maxHp);
+        _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenu.hpValue, hpValueText);
+        _uiStatusMenu.SetHpFillAmount(curHp, maxHp);
+
+        int curMp = _mPlayerManager.GetCurMp();
+        int maxMp = _mPlayerManager.GetMaxMp();
+        string mpValueText = string.Format("{0} / {1}", curMp, maxMp);
+        _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenu.mpValue, mpValueText);
+        _uiStatusMenu.SetMpFillAmount(curMp, maxMp);
+
+        //buffList
+
+        //skills
+        foreach(SkillType t in Enum.GetValues(typeof(SkillType)))
+        {
+            int tempSkillValue = _mPlayerManager.GetSkillValue(t);
+            _uiStatusMenu.SetSkillTextForStatusMenu(t, tempSkillValue);
+        }
+
+        //basic attributes
+        int geValue = _mPlayerManager.GetGEValue();
+        _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenu.geValue, geValue.ToString());
+
+        int fameValue = _mPlayerManager.GetFameValue();
+        _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenu.fameValue, fameValue.ToString());
+
+        int shenFaValue = _mPlayerManager.GetShenFaValue();
+        _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenu.shenFaValue, shenFaValue.ToString());
+
+        int luckValue = _mPlayerManager.GetLuckValue();
+        _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenu.luckValue, luckValue.ToString());
+
+        return true;
     }
 
     public bool OpenSpecificMenu(string menuKey)
@@ -86,23 +171,23 @@ public class MainSceneTreeNodeManager
         switch (menuKey)
         {
             case UIMenuKey.StatusMenu:
-                localSuccess = _statusMenuUI.ShowRootUI();
+                localSuccess = _uiStatusMenu.ShowRootUI();
                 return localSuccess;
 
             case UIMenuKey.InventoryMenu:
-                localSuccess = _inventoryMenuUI.ShowRootUI();
+                localSuccess = _uiInventoryMenu.ShowRootUI();
                 return localSuccess;
 
             case UIMenuKey.NeiGongMenu:
-                localSuccess = _neiGongMenuUI.ShowRootUI();
+                localSuccess = _uiNeiGongMenu.ShowRootUI();
                 return localSuccess;
 
             case UIMenuKey.CardMenu:
-                localSuccess = _cardMenuUI.ShowRootUI();
+                localSuccess = _uiCardMenu.ShowRootUI();
                 return localSuccess;
 
             case UIMenuKey.SocialMenu:
-                localSuccess = _socialMenuUI.ShowRootUI();
+                localSuccess = _uiSocialMenu.ShowRootUI();
                 return localSuccess;
 
             default:
@@ -113,26 +198,26 @@ public class MainSceneTreeNodeManager
 
     private void CloseAllMenus()
     {
-        _statusMenuUI.HideRootUI();
-        _inventoryMenuUI.HideRootUI();
-        _neiGongMenuUI.HideRootUI();
-        _cardMenuUI.HideRootUI();
-        _socialMenuUI.HideRootUI();
+        _uiStatusMenu.HideRootUI();
+        _uiInventoryMenu.HideRootUI();
+        _uiNeiGongMenu.HideRootUI();
+        _uiCardMenu.HideRootUI();
+        _uiSocialMenu.HideRootUI();
     }
 
     private bool SwitchMenuUI(out string error)
     {
         error = "";
-        if (UI_Menu == null)
+        if (_uiMenu == null)
         {
             error = "Fail to load menu UI. Menu UI is not initialized properly";
             return false;
         }
 
-        if (UI_Menu.isVisible())
-            UI_Menu.HideRootUI();
+        if (_uiMenu.isVisible())
+            _uiMenu.HideRootUI();
         else
-            UI_Menu.ShowRootUI();
+            _uiMenu.ShowRootUI();
 
         return true;
     }

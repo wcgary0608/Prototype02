@@ -10,44 +10,45 @@ public enum SkillType
 
 public class PlayerManager : IGameManager
 {
-    private int _curHP;
-    private int _maxHP;
-    private int _curMP;
-    private int _maxMP;
+    private int _curHP = 10;
+    private int _maxHP = 10;
+    private int _curMP = 3;
+    private int _maxMP = 5;
 
-    private int _geValue;
+    private int _geValue = 0;
     private int _maxGEValue = 100;
     private int _minGEValue = -100;
 
-    private int _fameValue;
+    private int _fameValue = 0;
     private int _maxFameValue = 100;
     private int _minFameValue = 0;
 
-    private int _shenFaValue;
+    private int _shenFaValue = 2;
     private int _maxShenFaValue = 100;
     private int _minShenFaValue = 1;
 
-    private int _luckValue;
+    private int _luckValue = 0;
     private int _maxLuckValue = 100;
     private int _minLuckValue = -100;
 
-    private int _fishingSkillValue;
-    private int _huntingSkillValue;
-    private int _medicineSkillValue;
-    private int _cookingSkillValue;
-    private int _musicSkillValue;
-    private int _chessSkillValue;
-    private int _writeSkillValue;
-    private int _drawSkillValue;
+    private int _fishingSkillValue = 1;
+    private int _huntingSkillValue = 1;
+    private int _medicineSkillValue = 1;
+    private int _cookingSkillValue = 1;
+    private int _musicSkillValue = 1;
+    private int _chessSkillValue = 1;
+    private int _writeSkillValue = 1;
+    private int _drawSkillValue = 1;
     private int _maxSkillValue = 100;
 
     private List<string> _listBuff;
 
-    private string _playerName;
+    private string _playerName = "贾健程";
     
 
     public PlayerManager(MainSceneTreeNodeManager center) : base(center)
     {
+
     }
 
     public override void Initialize()
@@ -67,17 +68,17 @@ public class PlayerManager : IGameManager
     {
     }
 
-    private int GetCurHp()
+    public int GetCurHp()
     {
         return _curHP;
     }
 
-    private int GetMaxHp()
+    public int GetMaxHp()
     {
         return _maxHP;
     }
 
-    private bool ChangeCurHp(int changeValue)
+    public bool ChangeCurHp(int changeValue)
     {
         int tempHp = _curHP + changeValue;
 
@@ -90,7 +91,7 @@ public class PlayerManager : IGameManager
         return true;
     }
 
-    private bool ChangeMaxHp(int changeValue)
+    public bool ChangeMaxHp(int changeValue)
     {
         int tempValue = _maxHP + changeValue;
 
@@ -104,22 +105,22 @@ public class PlayerManager : IGameManager
         return true;
     }
 
-    private void FullUpHp()
+    public void FullUpHp()
     {
         _curHP = _maxHP;
     }
 
-    private int GetCurMp()
+    public int GetCurMp()
     {
         return _curMP;
     }
 
-    private int GetMaxMp()
+    public int GetMaxMp()
     {
         return _maxMP;
     }
 
-    private bool ChangeCurMp(int changeValue)
+    public bool ChangeCurMp(int changeValue)
     {
         int tempCurMp = _curMP + changeValue;
 
@@ -133,7 +134,7 @@ public class PlayerManager : IGameManager
         return true;
     }
 
-    private bool ChangeMaxMp(int changeValue)
+    public bool ChangeMaxMp(int changeValue)
     {
         int tempMaxMp = _maxMP + changeValue;
 
@@ -147,58 +148,58 @@ public class PlayerManager : IGameManager
         return true;
     }
 
-    private void FullUpMp()
+    public void FullUpMp()
     {
         _curMP = _maxMP;
     }
 
-    private int GetGEValue()
+    public int GetGEValue()
     {
         return _geValue;
     }
 
-    private void ChangeGEValue(int changeValue)
+    public void ChangeGEValue(int changeValue)
     {
         int tempGEValue = _geValue + changeValue;
         _geValue = Mathf.Clamp(tempGEValue, _minGEValue, _maxGEValue);
     }
 
-    private int GetFameValue()
+    public int GetFameValue()
     {
         return _fameValue;
     }
 
-    private void ChangeFameValue(int changeValue)
+    public void ChangeFameValue(int changeValue)
     {
         int tempFameValue = _fameValue + changeValue;
         _fameValue = Mathf.Clamp(tempFameValue, _minFameValue, _maxFameValue);
     }
 
-    private int GetShenFaValue()
+    public int GetShenFaValue()
     {
         return _shenFaValue;
     }
 
-    private void ChangeShenFaValue(int changeValue)
+    public void ChangeShenFaValue(int changeValue)
     {
         int tempShenFaValue = _shenFaValue + changeValue;
 
         _shenFaValue = Mathf.Clamp(tempShenFaValue, _minShenFaValue, _maxShenFaValue);
     }
 
-    private int GetLuckValue()
+    public int GetLuckValue()
     {
         return _luckValue;
     }
 
-    private void ChangeLuckValue(int changeValue)
+    public void ChangeLuckValue(int changeValue)
     {
         int tempLuckValue = _luckValue + changeValue;
 
         _luckValue = Mathf.Clamp(tempLuckValue, _minLuckValue, _maxLuckValue);
     }
 
-    private int GetSkillValue(SkillType skillKey)
+    public int GetSkillValue(SkillType skillKey)
     {
         switch (skillKey)
         {
@@ -231,7 +232,7 @@ public class PlayerManager : IGameManager
         }
     }
 
-    private void ChangeSkillValue(SkillType skillKey, int changeValue)
+    public void ChangeSkillValue(SkillType skillKey, int changeValue)
     {
         int tempSkillValue;
 
@@ -283,7 +284,7 @@ public class PlayerManager : IGameManager
         }
     }
 
-    private bool AddBuff(string buffKey)
+    public bool AddBuff(string buffKey)
     {
         if (_listBuff.Contains(buffKey))
             return false;
@@ -293,7 +294,7 @@ public class PlayerManager : IGameManager
 
     }
 
-    private bool RemoveBuff(string buffKey)
+    public bool RemoveBuff(string buffKey)
     {
         if (!_listBuff.Contains(buffKey))
             return false;
@@ -302,12 +303,12 @@ public class PlayerManager : IGameManager
         return true;
     }
 
-    private string GetPlayerName()
+    public string GetPlayerName()
     {
         return _playerName;
     }
 
-    private void SetPlayerName(string playerName)
+    public void SetPlayerName(string playerName)
     {
         _playerName = playerName;
     }

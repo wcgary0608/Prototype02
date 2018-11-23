@@ -33,13 +33,13 @@ public class CardMenuUI : IUserInterface
 
     public CardMenuUI(MainSceneTreeNodeManager center) : base(center)
     {
-        GetUIComponents();
-        HideRootUI();
+        
     }
 
     public override void Initialize()
     {
-        base.Initialize();
+        GetUIComponents();
+        HideRootUI();
     }
 
     public override void Release()
@@ -76,7 +76,6 @@ public class CardMenuUI : IUserInterface
         
 
         _btnAllocateCard = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.AllocateCardBtn);
-        Debug.Log(_btnAllocateCard.name);
         _btnComposeCard = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.ComposeCardBtn);
 
         
