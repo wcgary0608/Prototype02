@@ -6,45 +6,47 @@ using Assets.Scripts.MainScene;
 public class StatusMenuUI : IUserInterface
 {
     //Basic status panel components
-    private Image i_hpFill;
+    private Image _imgHpFill;
 
-    private TextMeshProUGUI t_hpValue;
-    private Image i_mpFill;
+    private TextMeshProUGUI _tHpValue;
+    private Image _imgMpFill;
     private TextMeshProUGUI t_mpValue;
-    private GameObject obj_buffContent;
+    private GameObject _oBuffContent;
+    private GameObject _oBuffDescriptionPanel;
+    private TextMeshProUGUI _tBuffDescription;
+    private GameObject _pfbBuffInstance;
 
     //Skill Panel Components
-    private TextMeshProUGUI t_fishingSkill;
-
-    private TextMeshProUGUI t_huntingSkill;
-    private TextMeshProUGUI t_medicineSkill;
-    private TextMeshProUGUI t_cookingSkill;
-    private TextMeshProUGUI t_musicSkill;
-    private TextMeshProUGUI t_chessSkill;
-    private TextMeshProUGUI t_writeSkill;
-    private TextMeshProUGUI t_drawSkill;
+    private TextMeshProUGUI _tFishingSkill;
+    private TextMeshProUGUI _tHuntingSkill;
+    private TextMeshProUGUI _tMedicineSkill;
+    private TextMeshProUGUI _tCookingSkill;
+    private TextMeshProUGUI _tMusicSkill;
+    private TextMeshProUGUI _tChessSkill;
+    private TextMeshProUGUI _tWriteSkill;
+    private TextMeshProUGUI _tDrawSkill;
 
     //Basic Information UI Coponents
-    private TextMeshProUGUI t_playerName;
+    private TextMeshProUGUI _tPlayerName;
 
-    private TextMeshProUGUI t_characteristic;
-    private GameObject obj_giftContent;
+    private TextMeshProUGUI _tCharacteristic;
+    private GameObject _oGiftContent;
 
     // Choices Probabilities UI Components
-    private TextMeshProUGUI t_moveProb;
+    private TextMeshProUGUI _tMoveProb;
 
-    private TextMeshProUGUI t_skillProb;
-    private TextMeshProUGUI t_lifeProb;
-    private TextMeshProUGUI t_healProb;
-    private TextMeshProUGUI t_battleProb;
-    private TextMeshProUGUI t_socialProb;
+    private TextMeshProUGUI _tSkillProb;
+    private TextMeshProUGUI _tLifeProb;
+    private TextMeshProUGUI _tHealProb;
+    private TextMeshProUGUI _tBattleProb;
+    private TextMeshProUGUI _tSocialProb;
 
     //Player Attributes UI Components
-    private TextMeshProUGUI t_GEValue;
+    private TextMeshProUGUI _tGEValue;
 
-    private TextMeshProUGUI t_fameValue;
-    private TextMeshProUGUI t_shenFaValue;
-    private TextMeshProUGUI t_luckValue;
+    private TextMeshProUGUI _tFameValue;
+    private TextMeshProUGUI _tShenFaValue;
+    private TextMeshProUGUI _tLuckValue;
 
     // Equipment UI Components
     private TextMeshProUGUI t_weaponName;
@@ -59,7 +61,7 @@ public class StatusMenuUI : IUserInterface
     public override void Initialize()
     {
         GetUIComponents();
-
+        LoadPrefabs();
     }
 
     public override void Release()
@@ -95,43 +97,50 @@ public class StatusMenuUI : IUserInterface
         var weapon = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.Weapon);
         var accessory = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.Accessory);
 
-        ///UI Components
-        
+        ///UI Components     
 
-        i_hpFill = UITool.GetUIComponent<Image>(hpBar, MainUIComponentCollection.FillImg);
-        t_hpValue = UITool.GetUIComponent<TextMeshProUGUI>(hpBar, MainUIComponentCollection.HpValue);
+        _imgHpFill = UITool.GetUIComponent<Image>(hpBar, MainUIComponentCollection.FillImg);
+        _tHpValue = UITool.GetUIComponent<TextMeshProUGUI>(hpBar, MainUIComponentCollection.HpValue);
 
-        i_mpFill = UITool.GetUIComponent<Image>(mpBar, MainUIComponentCollection.FillImg);
+        _imgMpFill = UITool.GetUIComponent<Image>(mpBar, MainUIComponentCollection.FillImg);
         t_mpValue = UITool.GetUIComponent<TextMeshProUGUI>(mpBar, MainUIComponentCollection.MpValue);
 
-        obj_buffContent = UnityTool.FindChildGameObject(buffViewport, MainUIComponentCollection.Content);
+        _oBuffContent = UnityTool.FindChildGameObject(buffViewport, MainUIComponentCollection.Content);
+        _oBuffDescriptionPanel = UnityTool.FindChildGameObject(buffList, MainUIComponentCollection.BuffDescriptionPanel);
+        _tBuffDescription = UITool.GetUIComponent<TextMeshProUGUI>(_oBuffDescriptionPanel, MainUIComponentCollection.Text);
 
-        t_fishingSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Fishing);
-        t_huntingSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Hunting);
-        t_medicineSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Medicine);
-        t_cookingSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Cooking);
-        t_musicSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Music);
-        t_chessSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Chess);
-        t_writeSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Write);
-        t_drawSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Draw);
+        _tFishingSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Fishing);
+        _tHuntingSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Hunting);
+        _tMedicineSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Medicine);
+        _tCookingSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Cooking);
+        _tMusicSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Music);
+        _tChessSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Chess);
+        _tWriteSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Write);
+        _tDrawSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Draw);
 
-        t_playerName = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.PlayerName);
-        t_characteristic = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Characteristic);
-        obj_giftContent = UnityTool.FindChildGameObject(giftViewport, MainUIComponentCollection.Content);
+        _tPlayerName = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.PlayerName);
+        _tCharacteristic = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Characteristic);
+        _oGiftContent = UnityTool.FindChildGameObject(giftViewport, MainUIComponentCollection.Content);
 
-        t_moveProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Move);
-        t_skillProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Skill);
-        t_lifeProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Life);
-        t_healProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Heal);
-        t_battleProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Battle);
-        t_socialProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Social);
+        _tMoveProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Move);
+        _tSkillProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Skill);
+        _tLifeProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Life);
+        _tHealProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Heal);
+        _tBattleProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Battle);
+        _tSocialProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Social);
 
-        t_GEValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.GEValue);
-        t_fameValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Fame);
-        t_shenFaValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.ShenFa);
-        t_luckValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Luck);
+        _tGEValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.GEValue);
+        _tFameValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Fame);
+        _tShenFaValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.ShenFa);
+        _tLuckValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Luck);
 
         t_weaponName = UITool.GetUIComponent<TextMeshProUGUI>(weapon, MainUIComponentCollection.Text);
         t_accessoryName = UITool.GetUIComponent<TextMeshProUGUI>(accessory, MainUIComponentCollection.Text);
     }
+
+    private void LoadPrefabs()
+    {
+        _pfbBuffInstance = Resources.Load<GameObject>("Prefabs/UI/StatusMenu/BuffInstance");
+    }
+
 }

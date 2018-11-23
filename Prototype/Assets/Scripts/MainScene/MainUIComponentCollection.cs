@@ -69,6 +69,8 @@
         public const string Luck = "Luck";
         public const string HpBar = "HpBar";
         public const string MpBar = "MpBar";
+        public const string BuffDescriptionPanel = "BuffDescriptionPanel";
+
         //SocialMenuUI
         public const string NpcList = "NpcList";
         public const string NeiGongList = "NeiGongList";
