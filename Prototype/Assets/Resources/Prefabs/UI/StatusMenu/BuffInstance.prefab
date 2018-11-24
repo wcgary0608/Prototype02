@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224308245820381686}
   - component: {fileID: 222383251070290262}
   - component: {fileID: 114315213524928464}
+  - component: {fileID: 114622516163455426}
   m_Layer: 5
   m_Name: BuffInstance
   m_TagString: Untagged
@@ -75,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -158,11 +159,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -216,7 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -231,6 +232,17 @@ MonoBehaviour:
   m_canvasRenderer: {fileID: 222489138212451034}
   m_TextComponent: {fileID: 114171761280393832}
   m_materialReferenceIndex: 1
+--- !u!114 &114622516163455426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1053397638623182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d256bf417c98b9d47b7c783a509d7de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222383251070290262
 CanvasRenderer:
   m_ObjectHideFlags: 1

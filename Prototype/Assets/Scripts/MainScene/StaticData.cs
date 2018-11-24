@@ -18,7 +18,7 @@ public class StaticData {
     private StaticData() { }
     #endregion
 
-    private Dictionary<string, Buff> _dicBuff;
+    private Dictionary<string, BuffData> _dicBuffData;
 
     private List<string> _listPlayerStatusData;
 
@@ -34,11 +34,13 @@ public class StaticData {
 
     private void InitializeBuffDictionary()
     {
-        _dicBuff = new Dictionary<string, Buff>();
+        _dicBuffData = new Dictionary<string, BuffData>();
         //Load buff data
 
         //Generate Test buff Data
-        _dicBuff.Add("buff01" ,new Buff("buff01", "神行", "每消耗10点行动力，额外获得1点行动力。", BuffType.buff));
+        _dicBuffData.Add("buff01" ,new BuffData("buff01", "神行", "神行\n每消耗10点行动力，额外获得1点行动力", BuffTypeEnum.buff));
+        _dicBuffData.Add("buff02", new BuffData("buff02", "大周天", "大周天\n每消耗2点行动力，恢复1点内力", BuffTypeEnum.buff));
+        _dicBuffData.Add("buff03", new BuffData("buff03", "中毒", "中毒\n每消耗2点行动力，损失1点气血", BuffTypeEnum.debuff));
 
     }
 
@@ -61,11 +63,43 @@ public class StaticData {
 
     }
 
-    private List<string> InitializeTestBuffList()
+    public List<string> InitializeTestBuffList()
     {
         _listPlayerBuff = new List<string>();
+
+        _listPlayerBuff.Add("buff01");
+        _listPlayerBuff.Add("buff02");
+        _listPlayerBuff.Add("buff03");
 
         return _listPlayerBuff;
     }
 
+    public BuffData GetBuffDataFromDic(string buffKey)
+    {
+        if (_dicBuffData.ContainsKey(buffKey))
+            return _dicBuffData[buffKey];
+        else
+            Debug.Log("Invalid buffKey: " + buffKey);
+            return null;
+    }
+
+}
+
+public class BuffData
+{
+    public string buffKey;
+
+    public string buffName;
+
+    public string buffDescription;
+
+    public BuffTypeEnum buffType;
+
+    public BuffData(string key, string name, string description, BuffTypeEnum type)
+    {
+        buffKey = key;
+        buffName = name;
+        buffDescription = description;
+        buffType = type;
+    }
 }

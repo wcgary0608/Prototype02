@@ -46,9 +46,9 @@ public class MenuUI : IUserInterface
 
     private void GetUIComponents()
     {
-        m_RootUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
+        _oRootUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
 
-        _oMenuChoices = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.MenuChoices);
+        _oMenuChoices = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.MenuChoices);
 
         _btnStatausMenu = UITool.GetUIComponent<Button>(_oMenuChoices, MainUIComponentCollection.StatusMenuBtn);
         _btnInventoryMenu = UITool.GetUIComponent<Button>(_oMenuChoices, MainUIComponentCollection.InventoryMenuBtn);
@@ -59,10 +59,10 @@ public class MenuUI : IUserInterface
 
     private void InitializeComponents()
     {
-        _btnStatausMenu.onClick.AddListener(() => { m_ManagerCenter.OpenSpecificMenu(UIMenuKey.StatusMenu); });
-        _btnInventoryMenu.onClick.AddListener(() => { m_ManagerCenter.OpenSpecificMenu(UIMenuKey.InventoryMenu); });
-        _btnNeiGongMenu.onClick.AddListener(() => { m_ManagerCenter.OpenSpecificMenu(UIMenuKey.NeiGongMenu); });
-        _btnCardMenu.onClick.AddListener(() => { m_ManagerCenter.OpenSpecificMenu(UIMenuKey.CardMenu); });
-        _btnSocialMenu.onClick.AddListener(() => { m_ManagerCenter.OpenSpecificMenu(UIMenuKey.SocialMenu); });
+        _btnStatausMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.StatusMenu); });
+        _btnInventoryMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.InventoryMenu); });
+        _btnNeiGongMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.NeiGongMenu); });
+        _btnCardMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.CardMenu); });
+        _btnSocialMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.SocialMenu); });
     }
 }

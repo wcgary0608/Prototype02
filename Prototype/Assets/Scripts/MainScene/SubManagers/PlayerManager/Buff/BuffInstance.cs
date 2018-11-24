@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 using Assets.Scripts.MainScene;
 
-public class BuffInstance : MonoBehaviour {
-
-    private GameObject _oBuffInstance;
+public class BuffInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler{
 
     private Image _imgBuffInstanceImg;
 
     private TextMeshProUGUI _tBuffName;
 
-    private string _buffKey;
+    private Buff _buff;
+
+    private MainSceneTreeNodeManager _managerCenter;
 
     // Use this for initialization
     void Start () {
@@ -25,23 +26,49 @@ public class BuffInstance : MonoBehaviour {
 		
 	}
 
-    public void InitializeInstance(string buffKey)
+    public void InitializeInstance(Buff buff, MainSceneTreeNodeManager managerCenter)
     {
-        _oBuffInstance = this.gameObject;
+        _managerCenter = managerCenter;
 
-        _imgBuffInstanceImg = _oBuffInstance.GetComponent<Image>();
+        _buff = buff;
 
-        _tBuffName = UITool.GetUIComponent<TextMeshProUGUI>(_oBuffInstance, "Text");
+        buff.SetBuffInstanceObj(this.gameObject);
 
-        _buffKey = buffKey;
+        _imgBuffInstanceImg = this.gameObject.GetComponent<Image>();
+        switch (_buff.GetBuffType())
+        {
+            case BuffTypeEnum.buff:
+                _imgBuffInstanceImg.color = new Color(0f, 0.5f, 0f);
+                break;
+
+            case BuffTypeEnum.debuff:
+                _imgBuffInstanceImg.color = new Color(0.5f, 0f, 0f);
+                break;
+
+            default:
+                break;
+        }
+
+        _tBuffName = UITool.GetUIComponent<TextMeshProUGUI>(this.gameObject, "Text");
+        _tBuffName.SetText(_buff.GetBuffName());
+        
+
+
     }
 
-    private void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("mouse enter ");
         string outputParams = "";
-        
-        MainSceneTreeNodeManager.Instance.DoAction(DoActionKey.SwitchBuffDescription, out outputParams, _buffKey);
+
+        _managerCenter.DoAction(DoActionKey.SwitchBuffDescription, out outputParams, _buff.GetBuffDescription());
     }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("mouse exit ");
+        string outputParams = "";
+
+        _managerCenter.DoAction(DoActionKey.SwitchBuffDescription, out outputParams, _buff.GetBuffDescription());
+    }
 }

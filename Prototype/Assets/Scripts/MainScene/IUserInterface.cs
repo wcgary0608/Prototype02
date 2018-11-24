@@ -2,32 +2,32 @@
 
 public class IUserInterface
 {
-    protected MainSceneTreeNodeManager m_ManagerCenter = null;
-    protected GameObject m_RootUI = null;
-    private bool m_bActive = true;
+    protected MainSceneTreeNodeManager _managerCenter = null;
+    protected GameObject _oRootUI = null;
+    private bool _isActive = true;
 
     public IUserInterface(MainSceneTreeNodeManager center)
     {
-        m_ManagerCenter = center;
+        _managerCenter = center;
     }
 
     public bool isVisible()
     {
-        return m_bActive;
+        return _isActive;
     }
 
     public virtual bool ShowRootUI()
     {
-        m_RootUI.SetActive(true);
-        m_bActive = true;
+        _oRootUI.SetActive(true);
+        _isActive = true;
 
-        return m_bActive;
+        return _isActive;
     }
 
     public virtual void HideRootUI()
     {
-        m_RootUI.SetActive(false);
-        m_bActive = false;
+        _oRootUI.SetActive(false);
+        _isActive = false;
     }
 
     public virtual void Initialize()

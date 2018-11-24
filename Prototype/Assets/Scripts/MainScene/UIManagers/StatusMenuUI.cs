@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.MainScene;
 
-public enum TextInStatusMenu
+public enum TextInStatusMenuEnum
 {
     hpValue, mpValue, buffDescription, 
     playerName,
@@ -71,7 +71,7 @@ public class StatusMenuUI : IUserInterface
         LoadPrefabs();
 
         string outputParams = "";
-        if (!m_ManagerCenter.DoAction(DoActionKey.InitializeStatusMenuComponents, out outputParams))
+        if (!_managerCenter.DoAction(DoActionKey.InitializeStatusMenuComponents, out outputParams))
         {
             Debug.Log("fail to set value for StatusMenuUI");
         }
@@ -95,20 +95,20 @@ public class StatusMenuUI : IUserInterface
     private void GetUIComponents()
     {
         var obj_MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
-        m_RootUI = UnityTool.FindChildGameObject(obj_MenuUI, MainUIComponentCollection.StatusMenu);
+        _oRootUI = UnityTool.FindChildGameObject(obj_MenuUI, MainUIComponentCollection.StatusMenu);
 
         ///temporary variables
         
-        var hpBar = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.HpBar);
-        var mpBar = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.MpBar);
-        var buffList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.BuffList);
+        var hpBar = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.HpBar);
+        var mpBar = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.MpBar);
+        var buffList = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.BuffList);
         var buffViewport = UnityTool.FindChildGameObject(buffList, MainUIComponentCollection.Viewport);
-        var skillsPanel = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.SkillsPanel);
-        var giftList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.GiftList);
+        var skillsPanel = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.SkillsPanel);
+        var giftList = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.GiftList);
         var giftViewport = UnityTool.FindChildGameObject(giftList, MainUIComponentCollection.Viewport);
-        var choicePanel = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.ChoicePanel);
-        var weapon = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.Weapon);
-        var accessory = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.Accessory);
+        var choicePanel = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.ChoicePanel);
+        var weapon = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.Weapon);
+        var accessory = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.Accessory);
 
         ///UI Components     
 
@@ -131,8 +131,8 @@ public class StatusMenuUI : IUserInterface
         _tWriteSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Write);
         _tDrawSkill = UITool.GetUIComponent<TextMeshProUGUI>(skillsPanel, MainUIComponentCollection.Draw);
 
-        _tPlayerName = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.PlayerName);
-        _tCharacteristic = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Characteristic);
+        _tPlayerName = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.PlayerName);
+        _tCharacteristic = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.Characteristic);
         _oGiftContent = UnityTool.FindChildGameObject(giftViewport, MainUIComponentCollection.Content);
 
         _tMoveProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Move);
@@ -142,10 +142,10 @@ public class StatusMenuUI : IUserInterface
         _tBattleProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Battle);
         _tSocialProb = UITool.GetUIComponent<TextMeshProUGUI>(choicePanel, MainUIComponentCollection.Social);
 
-        _tGEValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.GEValue);
-        _tFameValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Fame);
-        _tShenFaValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.ShenFa);
-        _tLuckValue = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Luck);
+        _tGEValue = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.GEValue);
+        _tFameValue = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.Fame);
+        _tShenFaValue = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.ShenFa);
+        _tLuckValue = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.Luck);
 
         _tWeaponName = UITool.GetUIComponent<TextMeshProUGUI>(weapon, MainUIComponentCollection.Text);
         _tAccessoryName = UITool.GetUIComponent<TextMeshProUGUI>(accessory, MainUIComponentCollection.Text);
@@ -164,73 +164,74 @@ public class StatusMenuUI : IUserInterface
     public void SwitchBuffDescriptionPanel()
     {
         _oBuffDescriptionPanel.SetActive(!_isBuffDescriptionOn);
+        _isBuffDescriptionOn = !_isBuffDescriptionOn;
     }
 
-    public bool SetTextForStatusMenu(TextInStatusMenu textKey, string newText)
+    public bool SetTextForStatusMenu(TextInStatusMenuEnum textKey, string newText)
     {
         switch (textKey)
         {
-            case TextInStatusMenu.hpValue:
+            case TextInStatusMenuEnum.hpValue:
                 _tHpValue.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.mpValue:
+            case TextInStatusMenuEnum.mpValue:
                 _tMpValue.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.buffDescription:
+            case TextInStatusMenuEnum.buffDescription:
                 _tBuffDescription.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.playerName:
+            case TextInStatusMenuEnum.playerName:
                 _tPlayerName.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.moveProb:
+            case TextInStatusMenuEnum.moveProb:
                 _tMoveProb.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.skillProb:
+            case TextInStatusMenuEnum.skillProb:
                 _tSkillProb.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.lifeProb:
+            case TextInStatusMenuEnum.lifeProb:
                 _tLifeProb.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.healProb:
+            case TextInStatusMenuEnum.healProb:
                 _tHealProb.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.battleProb:
+            case TextInStatusMenuEnum.battleProb:
                 _tBattleProb.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.socialProb:
+            case TextInStatusMenuEnum.socialProb:
                 _tSocialProb.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.geValue:
+            case TextInStatusMenuEnum.geValue:
                 _tGEValue.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.fameValue:
+            case TextInStatusMenuEnum.fameValue:
                 _tFameValue.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.shenFaValue:
+            case TextInStatusMenuEnum.shenFaValue:
                 _tShenFaValue.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.luckValue:
+            case TextInStatusMenuEnum.luckValue:
                 _tLuckValue.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.weaponName:
+            case TextInStatusMenuEnum.weaponName:
                 _tWeaponName.SetText(newText);
                 return true;
 
-            case TextInStatusMenu.accessoryName:
+            case TextInStatusMenuEnum.accessoryName:
                 _tAccessoryName.SetText(newText);
                 return true;
 
@@ -240,41 +241,41 @@ public class StatusMenuUI : IUserInterface
         }
     }
 
-    public bool SetSkillTextForStatusMenu(SkillType skillKey, int skillValue)
+    public bool SetSkillTextForStatusMenu(SkillTypeEnum skillKey, int skillValue)
     {
         string newText = skillValue.ToString();
 
         switch (skillKey)
         {
-            case SkillType.fishing:
+            case SkillTypeEnum.fishing:
                 _tFishingSkill.SetText(newText);
                 return true;
 
-            case SkillType.hunting:
+            case SkillTypeEnum.hunting:
                 _tHuntingSkill.SetText(newText);
                 return true;
 
-            case SkillType.medicine:
+            case SkillTypeEnum.medicine:
                 _tMedicineSkill.SetText(newText);
                 return true;
 
-            case SkillType.cooking:
+            case SkillTypeEnum.cooking:
                 _tCookingSkill.SetText(newText);
                 return true;
 
-            case SkillType.music:
+            case SkillTypeEnum.music:
                 _tMusicSkill.SetText(newText);
                 return true;
 
-            case SkillType.chess:
+            case SkillTypeEnum.chess:
                 _tChessSkill.SetText(newText);
                 return true;
 
-            case SkillType.write:
+            case SkillTypeEnum.write:
                 _tWriteSkill.SetText(newText);
                 return true;
 
-            case SkillType.draw:
+            case SkillTypeEnum.draw:
                 _tDrawSkill.SetText(newText);
                 return true;
 
@@ -284,26 +285,22 @@ public class StatusMenuUI : IUserInterface
         }
     }
  
-    public void SetHpFillAmount(int curHp, int maxHp)
+    public void SetHpFillAmount(float fillAmount)
     {
-
-        float fillAmount = (float)curHp / maxHp;
         _imgHpFill.fillAmount = fillAmount;
  
     }
 
-    public void SetMpFillAmount(int curMp, int maxMp)
+    public void SetMpFillAmount(float fillAmount)
     {
-        if (maxMp == 0)
-        {
-            _imgMpFill.fillAmount = 0;
-            return;
-        }
-            
-        float fillAmount = (float)curMp / maxMp;
         _imgMpFill.fillAmount = fillAmount;
     }
 
+    public void InstantiateBuffInstance(Buff buff)
+    {
+        GameObject buffInstance = GameObject.Instantiate(_pfbBuffInstance, _oBuffContent.transform);
+        buffInstance.GetComponent<BuffInstance>().InitializeInstance(buff, _managerCenter);
+    }
 
 
 }

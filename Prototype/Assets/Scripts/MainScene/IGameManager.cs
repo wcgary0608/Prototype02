@@ -1,10 +1,10 @@
 ﻿public abstract class IGameManager
 {
-    protected MainSceneTreeNodeManager m_ManagerCenter = null;
+    protected MainSceneTreeNodeManager _managerCenter = null;
 
     public IGameManager(MainSceneTreeNodeManager center)
     {
-        m_ManagerCenter = center;
+        _managerCenter = center;
     }
 
     public virtual void Initialize()

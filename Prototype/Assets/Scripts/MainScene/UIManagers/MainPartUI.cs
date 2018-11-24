@@ -3,38 +3,47 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum TextInMainPartEnum
+{
+    hpValue, mpValue, actionValue, month, locationName
+}
+
 public class MainPartUI : IUserInterface
 {
-    private GameObject obj_statusBar;
+    private GameObject _oStatusPanel;
 
-    private GameObject obj_timeWheel;
+    private GameObject _oTimeWheel;
 
-    private GameObject obj_locationBar;
+    private GameObject _oLocationPanel;
 
-    private TextMeshProUGUI t_hpValue;
+    private TextMeshProUGUI _tHpValue;
 
-    private TextMeshProUGUI t_mpValue;
+    private TextMeshProUGUI _tMpValue;
 
-    private TextMeshProUGUI t_actionValue;
+    private TextMeshProUGUI _tActionValue;
 
-    private TextMeshProUGUI t_monthValue;
+    private TextMeshProUGUI _tMonth;
 
-    private TextMeshProUGUI t_locationName;
+    private TextMeshProUGUI _tLocationName;
 
-    private Image i_hpFill;
+    private Image _imgHpFill;
 
-    private Image i_mpFill;
+    private Image _imgMpFill;
 
     public MainPartUI(MainSceneTreeNodeManager center) : base(center)
     {
-        Initialize();
+        
     }
 
     public override void Initialize()
     {
         GetUIComponents();
 
-        InitializeUIValue();
+        string outputParams = "";
+        if (!_managerCenter.DoAction(DoActionKey.InitializeMainPartComponents, out outputParams))
+        {
+            //log error
+        }
     }
 
     public override void Release()
@@ -52,32 +61,71 @@ public class MainPartUI : IUserInterface
         base.FixedUpdate();
     }
 
-    private void InitializeUIValue()
-    {
-    }
+
 
     private void GetUIComponents()
     {
-        m_RootUI = UITool.FindUIGameObject(MainUIComponentCollection.MainPartUI);
+        _oRootUI = UITool.FindUIGameObject(MainUIComponentCollection.MainPartUI);
 
-        obj_statusBar = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.StatusBar);
+        _oStatusPanel = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.StatusBar);
 
-        obj_timeWheel = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.TimeWheel);
+        _oTimeWheel = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.TimeWheel);
 
-        obj_locationBar = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.LocationBar);
+        _oLocationPanel = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.LocationBar);
 
-        i_hpFill = UITool.GetUIComponent<Image>(m_RootUI, MainUIComponentCollection.HpFill);
+        _imgHpFill = UITool.GetUIComponent<Image>(_oRootUI, MainUIComponentCollection.HpFill);
 
-        i_mpFill = UITool.GetUIComponent<Image>(m_RootUI, MainUIComponentCollection.MpFill);
+        _imgMpFill = UITool.GetUIComponent<Image>(_oRootUI, MainUIComponentCollection.MpFill);
 
-        t_hpValue = UITool.GetUIComponent<TextMeshProUGUI>(obj_statusBar, MainUIComponentCollection.HpValue);
+        _tHpValue = UITool.GetUIComponent<TextMeshProUGUI>(_oStatusPanel, MainUIComponentCollection.HpValue);
 
-        t_mpValue = UITool.GetUIComponent<TextMeshProUGUI>(obj_statusBar, MainUIComponentCollection.MpValue);
+        _tMpValue = UITool.GetUIComponent<TextMeshProUGUI>(_oStatusPanel, MainUIComponentCollection.MpValue);
 
-        t_actionValue = UITool.GetUIComponent<TextMeshProUGUI>(obj_timeWheel, MainUIComponentCollection.ActionValue);
+        _tActionValue = UITool.GetUIComponent<TextMeshProUGUI>(_oTimeWheel, MainUIComponentCollection.ActionValue);
 
-        t_monthValue = UITool.GetUIComponent<TextMeshProUGUI>(obj_timeWheel, MainUIComponentCollection.MonthValue);
+        _tMonth = UITool.GetUIComponent<TextMeshProUGUI>(_oTimeWheel, MainUIComponentCollection.MonthValue);
 
-        t_locationName = UITool.GetUIComponent<TextMeshProUGUI>(obj_locationBar, MainUIComponentCollection.LocationName);
+        _tLocationName = UITool.GetUIComponent<TextMeshProUGUI>(_oLocationPanel, MainUIComponentCollection.LocationName);
     }
+
+    public bool SetTextForMainPart(TextInMainPartEnum textKey, string newText)
+    {
+        switch (textKey)
+        {
+            case TextInMainPartEnum.hpValue:
+                _tHpValue.SetText(newText);
+                return true;
+
+            case TextInMainPartEnum.mpValue:
+                _tMpValue.SetText(newText);
+                return true;
+
+            case TextInMainPartEnum.actionValue:
+                _tActionValue.SetText(newText);
+                return true;
+
+            case TextInMainPartEnum.month:
+                _tMonth.SetText(newText);
+                return true;
+
+            case TextInMainPartEnum.locationName:
+                _tLocationName.SetText(newText);
+                return true;
+
+            default:
+                Debug.Log("no such TextType in MainPart");
+                return false;
+        }
+    }
+
+    public void SetHpFillAmount(float fillAmount)
+    {
+        _imgHpFill.fillAmount = fillAmount;
+    }
+
+    public void SetMpFillAmount(float fillAmount)
+    {
+        _imgMpFill.fillAmount = fillAmount;
+    }
+
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum BuffType
+public enum BuffTypeEnum
 {
     buff,debuff
 }
@@ -16,18 +16,19 @@ public class Buff{
 
     private string _buffDescription;
 
-    private BuffType _buffType;
+    private BuffTypeEnum _buffType;
 
     private IBuffStrategy _buffStrategy;
 
+    private GameObject _oBuffInstance;
 
 
-    public Buff(string buffKey, string buffName, string buffDescription, BuffType buffType)
+    public Buff(BuffData data)
     {
-        _buffKey = buffKey;
-        _buffName = buffName;
-        _buffDescription = buffDescription;
-        _buffType = buffType;
+        _buffKey = data.buffKey;
+        _buffName = data.buffName;
+        _buffDescription = data.buffDescription;
+        _buffType = data.buffType;
     }
 
     // Use this for initialization
@@ -40,8 +41,35 @@ public class Buff{
 		
 	}
 
-   
+    public string GetBuffKey()
+    {
+        return _buffKey;
+    }
 
+    public string GetBuffName()
+    {
+        return _buffName;
+    }
+
+    public string GetBuffDescription()
+    {
+        return _buffDescription;
+    }
+
+    public BuffTypeEnum GetBuffType()
+    {
+        return _buffType;
+    }
+
+    public GameObject GetBuffInstanceObj()
+    {
+        return _oBuffInstance;
+    }
+
+    public void SetBuffInstanceObj(GameObject obj)
+    {
+        _oBuffInstance = obj;
+    }
     
 
 }

@@ -52,29 +52,29 @@ public class NeiGongMenuUI : IUserInterface
     private void GetUIComponents()
     {
         var MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
-        m_RootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.NeiGongMenu);
+        _oRootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.NeiGongMenu);
 
         //temporary variables
         
-        var list = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.List);
+        var list = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.List);
         var listViewport = UnityTool.FindChildGameObject(list, MainUIComponentCollection.Viewport);
-        var chapterList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.ChapterList);
+        var chapterList = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.ChapterList);
         var chapterViewport = UnityTool.FindChildGameObject(chapterList, MainUIComponentCollection.Viewport);
-        var conditionList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.ConditionList);
+        var conditionList = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.ConditionList);
         var conditionViewport = UnityTool.FindChildGameObject(conditionList, MainUIComponentCollection.Viewport);
-        var awardList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.AwardList);
+        var awardList = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.AwardList);
         var awardViewport = UnityTool.FindChildGameObject(awardList, MainUIComponentCollection.Viewport);
 
         //UI Components
        
         obj_listContent = UnityTool.FindChildGameObject(listViewport, MainUIComponentCollection.Content);
-        t_name = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Name);
-        t_quality = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Quality);
-        t_description = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.Description);
+        t_name = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.Name);
+        t_quality = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.Quality);
+        t_description = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.Description);
         obj_chapterContent = UnityTool.FindChildGameObject(chapterViewport, MainUIComponentCollection.Content);
         obj_conditionContent = UnityTool.FindChildGameObject(conditionViewport, MainUIComponentCollection.Content);
         obj_awardContent = UnityTool.FindChildGameObject(awardViewport, MainUIComponentCollection.Content);
-        btn_practice = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.PracticeBtn);
-        t_forcePoints = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.ForcePoints);
+        btn_practice = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.PracticeBtn);
+        t_forcePoints = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.ForcePoints);
     }
 }

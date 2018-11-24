@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum SkillType
+/// <summary>
+/// TBD:GiftList / Connection with ChoiceManager / Equipment
+/// </summary>
+public enum SkillTypeEnum
 {
     fishing, hunting, medicine, cooking, 
     music, chess, write, draw
@@ -12,8 +14,10 @@ public class PlayerManager : IGameManager
 {
     private int _curHP = 10;
     private int _maxHP = 10;
+    private float _hpFillAmount;
     private int _curMP = 3;
     private int _maxMP = 5;
+    private float _mpFillAmount;
 
     private int _geValue = 0;
     private int _maxGEValue = 100;
@@ -41,7 +45,9 @@ public class PlayerManager : IGameManager
     private int _drawSkillValue = 1;
     private int _maxSkillValue = 100;
 
-    private List<string> _listBuff;
+    private List<Buff> _listBuff = new List<Buff>();
+
+    
 
     private string _playerName = "贾健程";
     
@@ -53,7 +59,8 @@ public class PlayerManager : IGameManager
 
     public override void Initialize()
     {
-        
+        InitializePlayerBuffList();
+        InitializePlayerValue();
     }
 
     public override void Release()
@@ -66,6 +73,31 @@ public class PlayerManager : IGameManager
 
     public override void FixedUpdate()
     {
+    }
+
+    private void InitializePlayerValue()
+    {
+        SetHpFillAmount();
+        SetMpFillAmount();
+    }
+
+    private void InitializePlayerBuffList()
+    {
+        List<string> buffKeyList = StaticData.Instance.InitializeTestBuffList();
+
+        foreach(string key in buffKeyList)
+        {
+            BuffData data= StaticData.Instance.GetBuffDataFromDic(key);
+
+            if (data != null)
+            {
+                Buff buff = new Buff(data);
+                _listBuff.Add(buff);
+            }
+            else
+                continue;
+        }
+
     }
 
     public int GetCurHp()
@@ -153,6 +185,38 @@ public class PlayerManager : IGameManager
         _curMP = _maxMP;
     }
 
+    public void SetHpFillAmount()
+    {
+        _hpFillAmount = (float)_curHP / _maxHP;
+    }
+
+    public void SetMpFillAmount()
+    {
+        float fillAmount;
+        if (_curMP == 0)
+            fillAmount = 0;
+        else
+            fillAmount = (float)_curMP / _maxMP;
+
+        _mpFillAmount = fillAmount;
+        
+    }
+
+    public float GetHpFillAmount()
+    {
+        return _hpFillAmount;
+    }
+
+    public float GetMpFillAmount()
+    {
+        return _mpFillAmount;
+    }
+
+    public List<Buff> GetBuffList()
+    {
+        return _listBuff;
+    }
+
     public int GetGEValue()
     {
         return _geValue;
@@ -199,32 +263,32 @@ public class PlayerManager : IGameManager
         _luckValue = Mathf.Clamp(tempLuckValue, _minLuckValue, _maxLuckValue);
     }
 
-    public int GetSkillValue(SkillType skillKey)
+    public int GetSkillValue(SkillTypeEnum skillKey)
     {
         switch (skillKey)
         {
-            case SkillType.fishing:
+            case SkillTypeEnum.fishing:
                 return _fishingSkillValue;
 
-            case SkillType.hunting:
+            case SkillTypeEnum.hunting:
                 return _huntingSkillValue;
 
-            case SkillType.medicine:
+            case SkillTypeEnum.medicine:
                 return _medicineSkillValue;
 
-            case SkillType.cooking:
+            case SkillTypeEnum.cooking:
                 return _cookingSkillValue;
 
-            case SkillType.music:
+            case SkillTypeEnum.music:
                 return _musicSkillValue;
 
-            case SkillType.chess:
+            case SkillTypeEnum.chess:
                 return _chessSkillValue;
 
-            case SkillType.write:
+            case SkillTypeEnum.write:
                 return _writeSkillValue;
 
-            case SkillType.draw:
+            case SkillTypeEnum.draw:
                 return _drawSkillValue;
 
             default:
@@ -232,48 +296,48 @@ public class PlayerManager : IGameManager
         }
     }
 
-    public void ChangeSkillValue(SkillType skillKey, int changeValue)
+    public void ChangeSkillValue(SkillTypeEnum skillKey, int changeValue)
     {
         int tempSkillValue;
 
         switch (skillKey)
         {
-            case SkillType.fishing:
+            case SkillTypeEnum.fishing:
                 tempSkillValue = _fishingSkillValue + changeValue;
                 _fishingSkillValue = Mathf.Min(tempSkillValue, _maxSkillValue);
                 break;
 
-            case SkillType.hunting:
+            case SkillTypeEnum.hunting:
                 tempSkillValue = _huntingSkillValue + changeValue;
                 _huntingSkillValue = Mathf.Min(tempSkillValue, _maxSkillValue);
                 break;
 
-            case SkillType.medicine:
+            case SkillTypeEnum.medicine:
                 tempSkillValue = _medicineSkillValue + changeValue;
                 _medicineSkillValue = Mathf.Min(tempSkillValue, _maxSkillValue); 
                 break;
 
-            case SkillType.cooking:
+            case SkillTypeEnum.cooking:
                 tempSkillValue = _cookingSkillValue + changeValue;
                 _cookingSkillValue = Mathf.Min(tempSkillValue, _maxSkillValue); ;
                 break;
 
-            case SkillType.music:
+            case SkillTypeEnum.music:
                 tempSkillValue = _musicSkillValue + changeValue;
                 _musicSkillValue = Mathf.Min(tempSkillValue, _maxSkillValue);
                 break;
 
-            case SkillType.chess:
+            case SkillTypeEnum.chess:
                 tempSkillValue = _chessSkillValue + changeValue;
                 _chessSkillValue = Mathf.Min(tempSkillValue, _maxSkillValue);
                 break;
 
-            case SkillType.write:
+            case SkillTypeEnum.write:
                 tempSkillValue = _writeSkillValue + changeValue;
                 _writeSkillValue = Mathf.Min(tempSkillValue, _maxSkillValue);
                 break;
 
-            case SkillType.draw:
+            case SkillTypeEnum.draw:
                 tempSkillValue = _drawSkillValue + changeValue;
                 _drawSkillValue = Mathf.Min(tempSkillValue, _maxSkillValue);
                 break;
@@ -286,21 +350,33 @@ public class PlayerManager : IGameManager
 
     public bool AddBuff(string buffKey)
     {
-        if (_listBuff.Contains(buffKey))
+        BuffData buffData = StaticData.Instance.GetBuffDataFromDic(buffKey);
+        Buff buff = new Buff(buffData);
+
+        if (_listBuff.Contains(buff))
             return false;
 
-        _listBuff.Add(buffKey);
+        _listBuff.Add(buff);
         return true;
 
     }
 
     public bool RemoveBuff(string buffKey)
     {
-        if (!_listBuff.Contains(buffKey))
-            return false;
+        bool isSuccess = false;
 
-        _listBuff.Remove(buffKey);
-        return true;
+        foreach(Buff buff in _listBuff)
+        {
+            string key = buff.GetBuffKey();
+            if (buffKey == key)
+            {
+                _listBuff.Remove(buff);
+                isSuccess = true;
+            }
+                
+        }
+
+        return isSuccess;
     }
 
     public string GetPlayerName()
