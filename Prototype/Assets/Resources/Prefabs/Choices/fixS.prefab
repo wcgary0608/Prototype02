@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4985537022773282}
   - component: {fileID: 212662745482961896}
   m_Layer: 0
-  m_Name: fixS
+  m_Name: FixS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

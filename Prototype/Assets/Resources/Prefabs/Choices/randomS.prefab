@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4761269050323542}
   - component: {fileID: 212981043014855598}
   m_Layer: 0
-  m_Name: randomS
+  m_Name: RandomS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

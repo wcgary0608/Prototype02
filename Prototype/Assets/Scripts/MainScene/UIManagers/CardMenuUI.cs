@@ -90,6 +90,11 @@ public class CardMenuUI : IUserInterface
         _tCurGroupName = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.CurGroupName);
 
         _oAllCardContent = UnityTool.FindChildGameObject(allCardViewport, MainUIComponentCollection.Content);
+    }
+
+    private void InitializeUIValue()
+    {
 
     }
+
 }

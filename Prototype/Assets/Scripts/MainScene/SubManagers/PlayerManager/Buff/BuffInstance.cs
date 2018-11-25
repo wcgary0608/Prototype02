@@ -58,7 +58,6 @@ public class BuffInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("mouse enter ");
         string outputParams = "";
 
         _managerCenter.DoAction(DoActionKey.SwitchBuffDescription, out outputParams, _buff.GetBuffDescription());
@@ -66,7 +65,6 @@ public class BuffInstance : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("mouse exit ");
         string outputParams = "";
 
         _managerCenter.DoAction(DoActionKey.SwitchBuffDescription, out outputParams, _buff.GetBuffDescription());
