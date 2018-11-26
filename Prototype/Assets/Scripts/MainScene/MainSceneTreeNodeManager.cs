@@ -31,6 +31,8 @@ public class MainSceneTreeNodeManager
 
     private WorldManager _mWorldManager;
 
+    private ChoiceManager _mChoiceManager;
+
     public MainSceneTreeNodeManager(SceneStateController controller)
     {
         m_SceneController = controller;
@@ -64,6 +66,10 @@ public class MainSceneTreeNodeManager
 
         _mWorldManager = new WorldManager(this);
         _mWorldManager.Initialize();
+
+        _mChoiceManager = new ChoiceManager(this);
+        _mChoiceManager.Initialize();
+
     }
 
     private void InitializeUIManagers()

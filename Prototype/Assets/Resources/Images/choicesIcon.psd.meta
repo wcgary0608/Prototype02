@@ -8,6 +8,12 @@ TextureImporter:
     21300006: "\u9009\u9879ICON_3"
     21300008: "\u9009\u9879ICON_4"
     21300010: "\u9009\u9879ICON_5"
+    21300012: choicesIcon_0
+    21300014: choicesIcon_1
+    21300016: choicesIcon_2
+    21300018: choicesIcon_3
+    21300020: choicesIcon_4
+    21300022: choicesIcon_5
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -90,7 +96,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\u9009\u9879ICON_0"
+      name: choicesIcon_0
       rect:
         serializedVersion: 2
         x: 687
@@ -104,13 +110,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d2fc252ca04a0d4baede12850dd4a9d
+      spriteID: 4cbdf845c81ca624ba01cb1042a78a34
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\u9009\u9879ICON_1"
+      name: choicesIcon_1
       rect:
         serializedVersion: 2
         x: 870
@@ -124,13 +130,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5428af31e228a1f41a156e0a1f2e44be
+      spriteID: ad5514c499d8d7b4baae1224fa6fe55a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\u9009\u9879ICON_2"
+      name: choicesIcon_2
       rect:
         serializedVersion: 2
         x: 1053
@@ -144,19 +150,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56087143701438b448f0501daf44326e
+      spriteID: 52c9fce46dcfc9944b265fc46873c4a9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\u9009\u9879ICON_3"
+      name: choicesIcon_3
       rect:
         serializedVersion: 2
-        x: 738
-        y: 329
-        width: 109
-        height: 108
+        x: 687
+        y: 296
+        width: 144
+        height: 144
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,19 +170,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4abe009f97ee6854aaf72b9e870bb533
+      spriteID: 9d15d54ba550e9f44b9a3cda6fb0cbf9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\u9009\u9879ICON_4"
+      name: choicesIcon_4
       rect:
         serializedVersion: 2
-        x: 888
-        y: 328
-        width: 107
-        height: 107
+        x: 870
+        y: 296
+        width: 144
+        height: 144
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,19 +190,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3dc61ede4e328b34e9cdafa1ff9bc065
+      spriteID: 945cd22bc3547d24892702cfc1b8c248
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\u9009\u9879ICON_5"
+      name: choicesIcon_5
       rect:
         serializedVersion: 2
-        x: 1036
-        y: 328
-        width: 107
-        height: 107
+        x: 1053
+        y: 296
+        width: 144
+        height: 144
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,7 +210,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c91454bd09754449aed0c0ee42d3bd2
+      spriteID: d501ce78fbe4aca4f905701ada203146
       vertices: []
       indices: 
       edges: []
