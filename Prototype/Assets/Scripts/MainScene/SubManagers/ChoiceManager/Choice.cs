@@ -14,9 +14,14 @@ public class Choice{
 
     private ChoiceTypeEnum _choiceType;
 
-    public void InitializeChoice(ChoiceTypeEnum type)
+    public Choice(ChoiceTypeEnum type)
     {
         _choiceType = type;
+    }
+
+    public void InitializeChoice()
+    {
+        
     }
 
     public ChoiceTypeEnum GetChoiceType()

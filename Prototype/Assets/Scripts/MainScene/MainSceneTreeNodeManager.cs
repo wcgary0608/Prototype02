@@ -110,10 +110,19 @@ public class MainSceneTreeNodeManager
                 localSuccess = InitializeMainPartComponents(out outputParams);
                 break;
 
+            case DoActionKey.ShowAvailableChoices:
+                localSuccess = ShowAvailableChoices();
+                break;
             default:
                 break;
         }
         return localSuccess;
+    }
+
+    private bool ShowAvailableChoices()
+    {
+        _mChoiceManager.ShowAvailableChoices();
+        return true;
     }
 
     private bool SwitchBuffDescription(string buffDescription)

@@ -6,5 +6,6 @@
         public const string InitializeStatusMenuComponents = "Initialize_Status_Menu_Components";
         public const string SwitchBuffDescription = "Switch_Buff_Description";
         public const string InitializeMainPartComponents = "Initialize_Main_Part_Components";
+        public const string ShowAvailableChoices = "Show_Available_Choices";
     }
 }

@@ -25,7 +25,11 @@ public class ChoiceManager : IGameManager
 
     private Choice _curChoice;
 
-    private List<Choice> _listAvailableChoices;
+    private List<Choice> _listAvailableChoices = new List<Choice>();
+
+    private Vector2 _originPoint = Vector2.zero;
+
+    private float _radius = 2.5f;
 
 
     public ChoiceManager(MainSceneTreeNodeManager center) : base(center)
@@ -37,9 +41,8 @@ public class ChoiceManager : IGameManager
         GetRelatedGameObjects();
         LoadPrefabs();
 
-        _curChoice = new Choice();
-        _curChoice.InitializeChoice(ChoiceTypeEnum.move);
-        GenerateStartChoice();
+        _curChoice = new Choice(ChoiceTypeEnum.move);
+        GenerateChoiceInstance(_curChoice, _originPoint);
     }
 
     public override void Release()
@@ -72,17 +75,86 @@ public class ChoiceManager : IGameManager
 
     }
 
-    private void GenerateStartChoice()
+    public void ShowAvailableChoices()
     {
-        switch (_curChoice.GetChoiceType())
+        UpdateAvailableChoices();
+
+        GenerateAvailableChoiceInstance();
+    }
+
+    private Vector2 ComputeInstanceCoordinate(float angle)
+    {
+        var x = _originPoint.x + _radius * Mathf.Cos(angle * Mathf.Deg2Rad);
+        var y = _originPoint.y + _radius * Mathf.Sin(angle * Mathf.Deg2Rad);
+        return new Vector2(x, y);
+    }
+
+    private void GenerateAvailableChoiceInstance()
+    {
+        //生成随机的可选择项实例
+
+        int count = _listAvailableChoices.Count;
+
+        if(count > 0)
+        {
+            for(int i = 1; i <= count; i++)
+            {
+                Vector2 tempVector = ComputeInstanceCoordinate(i * 360f / count);
+                Choice tempChoice = _listAvailableChoices[i - 1];
+                GenerateChoiceInstance(tempChoice, tempVector);
+            }
+        }
+
+    }
+
+    private void UpdateAvailableChoices()
+    {
+        //For Test Use
+        _listAvailableChoices.Add(new Choice(ChoiceTypeEnum.skill));
+        _listAvailableChoices.Add(new Choice(ChoiceTypeEnum.heal));
+        _listAvailableChoices.Add(new Choice(ChoiceTypeEnum.move));
+    }
+
+    private void GenerateChoiceInstance(Choice choice, Vector2 choiceLoc)
+    {
+        GameObject tempChoice = null;
+        switch (choice.GetChoiceType())
         {
             case ChoiceTypeEnum.move:
-                GameObject choice = GameObject.Instantiate(_pfbMoveChoice, _oChoicesPanel.transform);
+                tempChoice = GameObject.Instantiate(_pfbMoveChoice, _oChoicesPanel.transform);
+                break;
+
+            case ChoiceTypeEnum.skill:
+                tempChoice = GameObject.Instantiate(_pfbSkillChoice, _oChoicesPanel.transform);
+                break;
+
+            case ChoiceTypeEnum.life:
+                tempChoice = GameObject.Instantiate(_pfbLifeChoice, _oChoicesPanel.transform);
+                break;
+
+            case ChoiceTypeEnum.heal:
+                tempChoice = GameObject.Instantiate(_pfbHealChoice, _oChoicesPanel.transform);
+                break;
+
+            case ChoiceTypeEnum.battle:
+                tempChoice = GameObject.Instantiate(_pfbBattleChoice, _oChoicesPanel.transform);
+                break;
+
+            case ChoiceTypeEnum.social:
+                tempChoice = GameObject.Instantiate(_pfbSocialChoice, _oChoicesPanel.transform);
                 break;
 
             default:
                 break;
         }
+
+        if (tempChoice != null)
+        {
+            tempChoice.transform.position = choiceLoc;
+            tempChoice.GetComponent<ChoiceInstance>().InitializeInstance(choice, _managerCenter);
+        }
+            
+
     }
 
 }
