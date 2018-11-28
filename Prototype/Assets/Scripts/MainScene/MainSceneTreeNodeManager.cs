@@ -149,15 +149,15 @@ public class MainSceneTreeNodeManager
     public bool InitializeMainPartComponents(out string error)
     {
         error = "";
-
+        PlayerAttribute player = _mPlayerManager.PlayerAttribute;
         //hp,mp
-        int curHp = _mPlayerManager.GetCurHp();
-        float hpFillAmount = _mPlayerManager.GetHpFillAmount();
+        int curHp = player.CurHp;
+        float hpFillAmount = player.HpFillAmount;
         _uiMainPart.SetTextForMainPart(TextInMainPartEnum.hpValue, curHp.ToString());
         _uiMainPart.SetHpFillAmount(hpFillAmount);
 
-        int curMp = _mPlayerManager.GetCurMp();
-        float mpFillAmount = _mPlayerManager.GetMpFillAmount();
+        int curMp = player.CurMp;
+        float mpFillAmount = player.MpFillAmount;
         _uiMainPart.SetTextForMainPart(TextInMainPartEnum.mpValue, curMp.ToString());
         _uiMainPart.SetMpFillAmount(mpFillAmount);
 
@@ -175,24 +175,25 @@ public class MainSceneTreeNodeManager
     public bool InitializeStatusMenuComponents(out string error)
     {
         error = "";
+        PlayerAttribute player = _mPlayerManager.PlayerAttribute;
 
         //hp,mp
-        int curHp = _mPlayerManager.GetCurHp();
-        int maxHp = _mPlayerManager.GetMaxHp();
+        int curHp = player.CurHp;
+        int maxHp = player.MaxHp;
         string hpValueText = string.Format("{0} / {1}", curHp, maxHp);
         _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenuEnum.hpValue, hpValueText);
-        float hpFillAmount = _mPlayerManager.GetHpFillAmount();
+        float hpFillAmount = player.HpFillAmount;
         _uiStatusMenu.SetHpFillAmount(hpFillAmount);
 
-        int curMp = _mPlayerManager.GetCurMp();
-        int maxMp = _mPlayerManager.GetMaxMp();
+        int curMp = player.CurMp;
+        int maxMp = player.MaxMp;
         string mpValueText = string.Format("{0} / {1}", curMp, maxMp);
         _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenuEnum.mpValue, mpValueText);
-        float mpFillAmount = _mPlayerManager.GetMpFillAmount();
+        float mpFillAmount = player.MpFillAmount;
         _uiStatusMenu.SetMpFillAmount(mpFillAmount);
 
         //buffList
-        List<Buff> buffList = _mPlayerManager.GetBuffList();
+        List<Buff> buffList = player.ListBuff;
         foreach(Buff buff in buffList)
         {
             _uiStatusMenu.InstantiateBuffInstance(buff);
@@ -202,28 +203,27 @@ public class MainSceneTreeNodeManager
         //skills
         foreach(SkillTypeEnum t in Enum.GetValues(typeof(SkillTypeEnum)))
         {
-            int tempSkillValue = _mPlayerManager.GetSkillValue(t);
+            int tempSkillValue = player.GetSkillValue(t);
             _uiStatusMenu.SetSkillTextForStatusMenu(t, tempSkillValue);
         }
 
         //basic attributes
-        int geValue = _mPlayerManager.GetGEValue();
+        int geValue = player.GEValue;
         _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenuEnum.geValue, geValue.ToString());
 
-        int fameValue = _mPlayerManager.GetFameValue();
+        int fameValue = player.FameValue;
         _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenuEnum.fameValue, fameValue.ToString());
 
-        int shenFaValue = _mPlayerManager.GetShenFaValue();
+        int shenFaValue = player.ShenFaValue;
         _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenuEnum.shenFaValue, shenFaValue.ToString());
 
-        int luckValue = _mPlayerManager.GetLuckValue();
+        int luckValue = player.LuckValue;
         _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenuEnum.luckValue, luckValue.ToString());
 
         //Player name & gift
-        string playerName = _mPlayerManager.GetPlayerName();
+        string playerName = player.PlayerName;
         _uiStatusMenu.SetTextForStatusMenu(TextInStatusMenuEnum.playerName, playerName);
        
-
         return true;
     }
 
