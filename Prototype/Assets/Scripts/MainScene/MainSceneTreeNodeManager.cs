@@ -113,10 +113,19 @@ public class MainSceneTreeNodeManager
             case DoActionKey.ShowAvailableChoices:
                 localSuccess = ShowAvailableChoices();
                 break;
+
             default:
                 break;
         }
         return localSuccess;
+    }
+
+    public bool MakeChoice(ChoiceInstance instance)
+    {
+        _mChoiceManager.MakeChoice(instance);
+        //Show target Event
+
+        return true;
     }
 
     private bool ShowAvailableChoices()

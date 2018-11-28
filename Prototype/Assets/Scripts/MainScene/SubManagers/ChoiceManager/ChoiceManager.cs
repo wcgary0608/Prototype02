@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using Assets.Scripts.MainScene;
 
+public enum ChoiceInstanceStatusEnum
+{
+    current, available
+}
+
 public class ChoiceManager : IGameManager
 {
 
     private GameObject _oChoicesPanel;
 
     private GameObject _oPastChoices;
+
+    private GameObject _oAvailableChoices;
 
     private GameObject _pfbMoveChoice;
 
@@ -25,6 +32,8 @@ public class ChoiceManager : IGameManager
 
     private Choice _curChoice;
 
+    private ChoiceInstance _curChoiceInstance;
+
     private List<Choice> _listAvailableChoices = new List<Choice>();
 
     private Vector2 _originPoint = Vector2.zero;
@@ -41,8 +50,8 @@ public class ChoiceManager : IGameManager
         GetRelatedGameObjects();
         LoadPrefabs();
 
-        _curChoice = new Choice(ChoiceTypeEnum.move);
-        GenerateChoiceInstance(_curChoice, _originPoint);
+        _curChoice = new Choice(ChoiceTypeEnum.move);   
+        _curChoiceInstance = GenerateChoiceInstance(_curChoice, _originPoint, ChoiceInstanceStatusEnum.current).GetComponent<ChoiceInstance>();
     }
 
     public override void Release()
@@ -62,6 +71,7 @@ public class ChoiceManager : IGameManager
         var MainPart = UnityTool.FindGameObject("MainPart");
         _oChoicesPanel = UnityTool.FindChildGameObject(MainPart, "ChoicesPanel");
         _oPastChoices = UnityTool.FindChildGameObject(_oChoicesPanel, "PastChoices");
+        _oAvailableChoices = UnityTool.FindChildGameObject(_oChoicesPanel, "AvailableChoices");
     }
 
     private void LoadPrefabs()
@@ -72,6 +82,33 @@ public class ChoiceManager : IGameManager
         _pfbHealChoice = Resources.Load<GameObject>(_choicePrefabPath + "HealChoice");
         _pfbBattleChoice = Resources.Load<GameObject>(_choicePrefabPath + "BattleChoice");
         _pfbSocialChoice = Resources.Load<GameObject>(_choicePrefabPath + "SocialChoice");
+
+    }
+
+    public void MakeChoice(ChoiceInstance instance)
+    {
+        instance.gameObject.transform.SetParent(_oChoicesPanel.transform);
+        instance.gameObject.SetActive(false);
+        
+        ChoiceInstance[] availableChoices = _oAvailableChoices.GetComponentsInChildren<ChoiceInstance>();
+        foreach(ChoiceInstance c in availableChoices)
+        {
+            GameObject.Destroy(c.gameObject);
+        }
+
+        _curChoiceInstance.gameObject.transform.SetParent(_oPastChoices.transform);
+        _curChoiceInstance.SetInstanceToPast();
+
+        Vector3 curPastPos = _oPastChoices.transform.position;
+        _oPastChoices.transform.position = new Vector3(curPastPos.x - 4.5f, curPastPos.y, curPastPos.z);
+
+        instance.transform.position = _originPoint;
+        _curChoiceInstance = instance;
+        _curChoice = instance.GetChoice();
+        instance.gameObject.SetActive(true);
+
+        //clear availabelChoicesList
+        _listAvailableChoices.Clear();
 
     }
 
@@ -101,7 +138,7 @@ public class ChoiceManager : IGameManager
             {
                 Vector2 tempVector = ComputeInstanceCoordinate(i * 360f / count);
                 Choice tempChoice = _listAvailableChoices[i - 1];
-                GenerateChoiceInstance(tempChoice, tempVector);
+                GenerateChoiceInstance(tempChoice, tempVector, ChoiceInstanceStatusEnum.available);
             }
         }
 
@@ -115,33 +152,53 @@ public class ChoiceManager : IGameManager
         _listAvailableChoices.Add(new Choice(ChoiceTypeEnum.move));
     }
 
-    private void GenerateChoiceInstance(Choice choice, Vector2 choiceLoc)
+    private GameObject GenerateChoiceInstance(Choice choice, Vector2 choiceLoc, ChoiceInstanceStatusEnum choiceStatus)
     {
         GameObject tempChoice = null;
+        GameObject container = null;
+        bool isCurTarget = false;
+
+        switch (choiceStatus)
+        {
+            case ChoiceInstanceStatusEnum.current:
+                container = _oChoicesPanel;
+                isCurTarget = true;
+                break;
+
+            case ChoiceInstanceStatusEnum.available:
+                container = _oAvailableChoices;
+                isCurTarget = false;
+                break;
+
+            default:
+                break;
+
+        }
+
         switch (choice.GetChoiceType())
         {
             case ChoiceTypeEnum.move:
-                tempChoice = GameObject.Instantiate(_pfbMoveChoice, _oChoicesPanel.transform);
+                tempChoice = GameObject.Instantiate(_pfbMoveChoice, container.transform);
                 break;
 
             case ChoiceTypeEnum.skill:
-                tempChoice = GameObject.Instantiate(_pfbSkillChoice, _oChoicesPanel.transform);
+                tempChoice = GameObject.Instantiate(_pfbSkillChoice, container.transform);
                 break;
 
             case ChoiceTypeEnum.life:
-                tempChoice = GameObject.Instantiate(_pfbLifeChoice, _oChoicesPanel.transform);
+                tempChoice = GameObject.Instantiate(_pfbLifeChoice, container.transform);
                 break;
 
             case ChoiceTypeEnum.heal:
-                tempChoice = GameObject.Instantiate(_pfbHealChoice, _oChoicesPanel.transform);
+                tempChoice = GameObject.Instantiate(_pfbHealChoice, container.transform);
                 break;
 
             case ChoiceTypeEnum.battle:
-                tempChoice = GameObject.Instantiate(_pfbBattleChoice, _oChoicesPanel.transform);
+                tempChoice = GameObject.Instantiate(_pfbBattleChoice, container.transform);
                 break;
 
             case ChoiceTypeEnum.social:
-                tempChoice = GameObject.Instantiate(_pfbSocialChoice, _oChoicesPanel.transform);
+                tempChoice = GameObject.Instantiate(_pfbSocialChoice, container.transform);
                 break;
 
             default:
@@ -151,9 +208,10 @@ public class ChoiceManager : IGameManager
         if (tempChoice != null)
         {
             tempChoice.transform.position = choiceLoc;
-            tempChoice.GetComponent<ChoiceInstance>().InitializeInstance(choice, _managerCenter);
+            tempChoice.GetComponent<ChoiceInstance>().InitializeInstance(choice, _managerCenter, isCurTarget);
         }
-            
+
+        return tempChoice;
 
     }
 
