@@ -5,25 +5,26 @@ using UnityEngine.UI;
 
 public class InventoryMenuUI : IUserInterface
 {
-    private Button btn_all;
+    //buttons
+    private Button _btnAll;
+    private Button _btnDrug;
+    private Button _btnEquipment;
+    private Button _btnSundry;
+    private Button _btnUseItem;
+    private Button _btnDropItem;
 
-    private Button btn_drug;
+    //images
+    private Image _imgItemImage;
 
-    private Button btn_equipment;
+    //text
+    private TextMeshProUGUI _itemName;
+    private TextMeshProUGUI _itemDescription;
 
-    private Button btn_sundry;
 
-    private GameObject obj_itemContent;
+    //objects
+    private GameObject _oItemContent;
 
-    private Image i_itemImage;
-
-    private TextMeshProUGUI t_itemName;
-
-    private TextMeshProUGUI t_itemDescription;
-
-    private Button btn_useItem;
-
-    private Button btn_dropItem;
+    //prefab
 
     public InventoryMenuUI(MainSceneTreeNodeManager center) : base(center)
     {
@@ -55,27 +56,24 @@ public class InventoryMenuUI : IUserInterface
     {
         var MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
         _oRootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.InventoryMenu);
-        //temporary variables
-        
+
         var itemList = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.ItemList);
         var itemViewport = UnityTool.FindChildGameObject(itemList, MainUIComponentCollection.Viewport);
 
-        //UI Components
-        
+        //get UI Components
+        _btnAll = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.AllBtn);
+        _btnDrug = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.DrugBtn);
+        _btnEquipment = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.EquipmentBtn);
+        _btnSundry = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.SundryBtn);
 
-        btn_all = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.AllBtn);
-        btn_drug = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.DrugBtn);
-        btn_equipment = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.EquipmentBtn);
-        btn_sundry = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.SundryBtn);
+        _oItemContent = UnityTool.FindChildGameObject(itemViewport, MainUIComponentCollection.Content);
 
-        obj_itemContent = UnityTool.FindChildGameObject(itemViewport, MainUIComponentCollection.Content);
+        _imgItemImage = UITool.GetUIComponent<Image>(_oRootUI, MainUIComponentCollection.ItemImage);
+        _itemName = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.ItemName);
+        _itemDescription = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.ItemDescription);
 
-        i_itemImage = UITool.GetUIComponent<Image>(_oRootUI, MainUIComponentCollection.ItemImage);
-        t_itemName = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.ItemName);
-        t_itemDescription = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.ItemDescription);
-
-        btn_useItem = UITool.GetUIComponent<Button>(MainUIComponentCollection.UseBtn);
-        btn_dropItem = UITool.GetUIComponent<Button>(MainUIComponentCollection.DropBtn);
+        _btnUseItem = UITool.GetUIComponent<Button>(MainUIComponentCollection.UseBtn);
+        _btnDropItem = UITool.GetUIComponent<Button>(MainUIComponentCollection.DropBtn);
 
     }
 }
