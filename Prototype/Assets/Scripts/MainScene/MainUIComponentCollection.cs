@@ -69,6 +69,8 @@
         public const string Luck = "Luck";
         public const string HpBar = "HpBar";
         public const string MpBar = "MpBar";
+        public const string BuffDescriptionPanel = "BuffDescriptionPanel";
+
         //SocialMenuUI
         public const string NpcList = "NpcList";
         public const string NeiGongList = "NeiGongList";
@@ -101,5 +103,12 @@
         public const string DeleteGroupBtn = "DeleteGroupBtn";
         public const string TotalCardCount = "TotalCardCount";
         public const string CurGroupName = "CurGroupName";
+
+        //MenuUI
+        public const string StatusMenuBtn = "StatusMenuBtn";
+        public const string InventoryMenuBtn = "InventoryMenuBtn";
+        public const string NeiGongMenuBtn = "NeiGongMenuBtn";
+        public const string CardMenuBtn = "CardMenuBtn";
+        public const string SocialMenuBtn = "SocialMenuBtn";
     }
 }

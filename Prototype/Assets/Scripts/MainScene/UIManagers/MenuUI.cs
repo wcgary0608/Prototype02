@@ -4,9 +4,18 @@ using UnityEngine.UI;
 
 public class MenuUI : IUserInterface
 {
-    private GameObject obj_menuChoices;
+    private GameObject _oMenuChoices;
 
-    private Toggle[] list_menuTitles;
+    private Button _btnStatausMenu;
+
+    private Button _btnInventoryMenu;
+
+    private Button _btnNeiGongMenu;
+
+    private Button _btnCardMenu;
+
+    private Button _btnSocialMenu;
+    
 
     public MenuUI(MainSceneTreeNodeManager center) : base(center)
     {
@@ -16,6 +25,7 @@ public class MenuUI : IUserInterface
     public override void Initialize()
     {
         GetUIComponents();
+        InitializeComponents();
         HideRootUI();
     }
 
@@ -36,10 +46,23 @@ public class MenuUI : IUserInterface
 
     private void GetUIComponents()
     {
-        m_RootUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
+        _oRootUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
 
-        obj_menuChoices = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.MenuChoices);
+        _oMenuChoices = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.MenuChoices);
 
-        list_menuTitles = obj_menuChoices.GetComponentsInChildren<Toggle>();
+        _btnStatausMenu = UITool.GetUIComponent<Button>(_oMenuChoices, MainUIComponentCollection.StatusMenuBtn);
+        _btnInventoryMenu = UITool.GetUIComponent<Button>(_oMenuChoices, MainUIComponentCollection.InventoryMenuBtn);
+        _btnNeiGongMenu = UITool.GetUIComponent<Button>(_oMenuChoices, MainUIComponentCollection.NeiGongMenuBtn);
+        _btnCardMenu = UITool.GetUIComponent<Button>(_oMenuChoices, MainUIComponentCollection.CardMenuBtn);
+        _btnSocialMenu = UITool.GetUIComponent<Button>(_oMenuChoices, MainUIComponentCollection.SocialMenuBtn);
+    }
+
+    private void InitializeComponents()
+    {
+        _btnStatausMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.StatusMenu); });
+        _btnInventoryMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.InventoryMenu); });
+        _btnNeiGongMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.NeiGongMenu); });
+        _btnCardMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.CardMenu); });
+        _btnSocialMenu.onClick.AddListener(() => { _managerCenter.OpenSpecificMenu(UIMenuKey.SocialMenu); });
     }
 }

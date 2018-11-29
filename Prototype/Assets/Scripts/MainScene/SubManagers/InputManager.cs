@@ -31,7 +31,7 @@ public class InputManager : IGameManager
     {
         //打开主菜单---ESC
         string outputParams = "";
-        if (!m_ManagerCenter.DoAction(DoActionKey.SwitchMenuUI, out outputParams))
+        if (!_managerCenter.DoAction(DoActionKey.SwitchMenuUI, out outputParams))
         {
             //log error
         }

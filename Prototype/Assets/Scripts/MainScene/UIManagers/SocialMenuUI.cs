@@ -67,11 +67,11 @@ public class SocialMenuUI : IUserInterface
     private void GetUIComponents()
     {
         var MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
-        m_RootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.SocialMenu);
-        _oNpcDetailPanel = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.NpcDetailPanel);
+        _oRootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.SocialMenu);
+        _oNpcDetailPanel = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.NpcDetailPanel);
         //Temporary Variables
 
-        var npcList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.NpcList);
+        var npcList = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.NpcList);
         var npcViewport = UnityTool.FindChildGameObject(npcList, MainUIComponentCollection.Viewport);
 
         var neiGongList = UnityTool.FindChildGameObject(_oNpcDetailPanel, MainUIComponentCollection.NeiGongList);
@@ -85,10 +85,10 @@ public class SocialMenuUI : IUserInterface
         //UI Components
         
 
-        _btnAll = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.AllNpcBtn);
-        _btnFriend = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.FriendBtn);
-        _btnNormal = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.NormalBtn);
-        _btnEnermy = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.EnermyBtn);
+        _btnAll = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.AllNpcBtn);
+        _btnFriend = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.FriendBtn);
+        _btnNormal = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.NormalBtn);
+        _btnEnermy = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.EnermyBtn);
 
         _oNpcContent = UnityTool.FindChildGameObject(npcViewport, MainUIComponentCollection.Content);
 

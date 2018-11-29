@@ -33,13 +33,13 @@ public class CardMenuUI : IUserInterface
 
     public CardMenuUI(MainSceneTreeNodeManager center) : base(center)
     {
-        GetUIComponents();
-        HideRootUI();
+        
     }
 
     public override void Initialize()
     {
-        base.Initialize();
+        GetUIComponents();
+        HideRootUI();
     }
 
     public override void Release()
@@ -60,24 +60,23 @@ public class CardMenuUI : IUserInterface
     private void GetUIComponents()
     {
         var MenuUI = UITool.FindUIGameObject(MainUIComponentCollection.MenuUI);
-        m_RootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.CardMenu);
-        _oAllocationPanel = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.AllocateCardPanel);
+        _oRootUI = UnityTool.FindChildGameObject(MenuUI, MainUIComponentCollection.CardMenu);
+        _oAllocationPanel = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.AllocateCardPanel);
         //Temporary Variables
 
         var cardGroupList = UnityTool.FindChildGameObject(_oAllocationPanel, MainUIComponentCollection.CardGroupList);
         var cardGroupViewport = UnityTool.FindChildGameObject(cardGroupList, MainUIComponentCollection.Viewport);
         var curCardsList = UnityTool.FindChildGameObject(_oAllocationPanel, MainUIComponentCollection.CurCardsList);
         var curCardsViewport = UnityTool.FindChildGameObject(curCardsList, MainUIComponentCollection.Viewport);
-        var allCardList = UnityTool.FindChildGameObject(m_RootUI, MainUIComponentCollection.AllCardList);
+        var allCardList = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.AllCardList);
         var allCardViewport = UnityTool.FindChildGameObject(allCardList, MainUIComponentCollection.Viewport);
 
 
         //UI Components
         
 
-        _btnAllocateCard = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.AllocateCardBtn);
-        Debug.Log(_btnAllocateCard.name);
-        _btnComposeCard = UITool.GetUIComponent<Button>(m_RootUI, MainUIComponentCollection.ComposeCardBtn);
+        _btnAllocateCard = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.AllocateCardBtn);
+        _btnComposeCard = UITool.GetUIComponent<Button>(_oRootUI, MainUIComponentCollection.ComposeCardBtn);
 
         
         _oCardGroupContent = UnityTool.FindChildGameObject(cardGroupViewport, MainUIComponentCollection.Content);
@@ -87,10 +86,15 @@ public class CardMenuUI : IUserInterface
         _btnDeleteGroup = UITool.GetUIComponent<Button>(_oAllocationPanel, MainUIComponentCollection.DeleteGroupBtn);
         _oCurGroupContent = UnityTool.FindChildGameObject(curCardsViewport, MainUIComponentCollection.Content);
 
-        _tTotalCardCount = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.TotalCardCount);
-        _tCurGroupName = UITool.GetUIComponent<TextMeshProUGUI>(m_RootUI, MainUIComponentCollection.CurGroupName);
+        _tTotalCardCount = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.TotalCardCount);
+        _tCurGroupName = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.CurGroupName);
 
         _oAllCardContent = UnityTool.FindChildGameObject(allCardViewport, MainUIComponentCollection.Content);
+    }
+
+    private void InitializeUIValue()
+    {
 
     }
+
 }
