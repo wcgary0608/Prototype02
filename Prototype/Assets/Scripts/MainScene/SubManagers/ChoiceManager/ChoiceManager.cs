@@ -104,7 +104,7 @@ public class ChoiceManager : IGameManager
 
         instance.transform.position = _originPoint;
         _curChoiceInstance = instance;
-        _curChoice = instance.GetChoice();
+        _curChoice = instance.Choice;
         instance.gameObject.SetActive(true);
 
         //clear availabelChoicesList
@@ -175,7 +175,7 @@ public class ChoiceManager : IGameManager
 
         }
 
-        switch (choice.GetChoiceType())
+        switch (choice.ChoiceType)
         {
             case ChoiceTypeEnum.move:
                 tempChoice = GameObject.Instantiate(_pfbMoveChoice, container.transform);

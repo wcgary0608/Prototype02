@@ -8,7 +8,7 @@ public class ChoiceInstance : MonoBehaviour {
 
     private MainSceneTreeNodeManager _managerCenter;
 
-    private Choice _choice;
+    public Choice Choice { get; set; }
 
     private TextMeshPro _tChoiceName;
 
@@ -38,12 +38,7 @@ public class ChoiceInstance : MonoBehaviour {
     {
         _managerCenter = managerCenter;
         _isCurTarget = isCurTarget;
-        _choice = choice;
-    }
-
-    public Choice GetChoice()
-    {
-        return _choice;
+        Choice = choice;
     }
 
     public void SetInstanceToPast()
@@ -77,11 +72,9 @@ public class ChoiceInstance : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        if (_isPast == true)
-            return;
+        if (_isPast == true) return;
 
-        if (_isSelected == true)
-            return;
+        if (_isSelected == true) return;
 
         if(_isCurTarget == true)
         {
