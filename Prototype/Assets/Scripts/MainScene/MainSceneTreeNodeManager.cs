@@ -161,6 +161,18 @@ public class MainSceneTreeNodeManager
         return localSuccess;
     }
 
+    public bool ShowChoiceDescrptionPanel(Choice choice)
+    {
+        _mChoiceManager.ShowChoiceDescriptionPanel(choice);
+        return true;
+    }
+
+    public bool HideChoiceDescriptionPanel()
+    {
+        _mChoiceManager.HideChoiceDescriptionPanel();
+        return true;
+    }
+
     public bool PracticeNeiGong()
     {
         

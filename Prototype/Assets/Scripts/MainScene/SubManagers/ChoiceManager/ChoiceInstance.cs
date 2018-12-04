@@ -12,6 +12,8 @@ public class ChoiceInstance : MonoBehaviour {
 
     private TextMeshPro _tChoiceName;
 
+    private SpriteRenderer _sr;
+
     private string _EventId;
 
     private bool _isCurTarget = false;
@@ -23,6 +25,7 @@ public class ChoiceInstance : MonoBehaviour {
     private void Awake()
     {
         _tChoiceName = UnityTool.FindChildGameObject(this.gameObject, "Text").GetComponent<TextMeshPro>();
+        _sr = this.gameObject.GetComponent<SpriteRenderer>();
     }
     // Use this for initialization
     void Start () {
@@ -46,6 +49,7 @@ public class ChoiceInstance : MonoBehaviour {
         _isCurTarget = false;
         _isSelected = false;
         _isPast = true;
+        _sr.color = Color.gray;
     }
 
     public void SetInstanceToCurrent()
@@ -84,16 +88,36 @@ public class ChoiceInstance : MonoBehaviour {
                 //log error
             }
             _isSelected = true;
-            
+            _sr.color = Color.gray;
         }
         else
         {
             _managerCenter.MakeChoice(this);
+            _managerCenter.HideChoiceDescriptionPanel();
             SetInstanceToCurrent();
         }
+    }
 
-        
+    private void OnMouseEnter()
+    {
+        if (_isPast == true) return;
 
+        if (_isSelected == true) return;
+
+        if (_isCurTarget == true) return;
+
+        _managerCenter.ShowChoiceDescrptionPanel(Choice);
+    }
+
+    private void OnMouseExit()
+    {
+        if (_isPast == true) return;
+
+        if (_isSelected == true) return;
+
+        if (_isCurTarget == true) return;
+
+        _managerCenter.HideChoiceDescriptionPanel();
     }
 
 }
