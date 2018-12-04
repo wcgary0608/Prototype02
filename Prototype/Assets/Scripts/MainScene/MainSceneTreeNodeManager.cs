@@ -33,6 +33,10 @@ public class MainSceneTreeNodeManager
 
     private ChoiceManager _mChoiceManager;
 
+    private CardManager _mCardManager;
+
+    private NeiGongManager _mNeiGongManager;
+
     public MainSceneTreeNodeManager(SceneStateController controller)
     {
         m_SceneController = controller;
@@ -50,6 +54,8 @@ public class MainSceneTreeNodeManager
     public void Update()
     {
         _mInputManager.Update();
+
+        _uiNeiGongMenu.Update();
     }
 
     public void FixedUpdate()
@@ -70,6 +76,12 @@ public class MainSceneTreeNodeManager
         _mChoiceManager = new ChoiceManager(this);
         _mChoiceManager.Initialize();
 
+        _mCardManager = new CardManager(this);
+        _mCardManager.Initialize();
+
+        _mNeiGongManager = new NeiGongManager(this);
+        _mNeiGongManager.Initialize();
+
     }
 
     private void InitializeUIManagers()
@@ -81,10 +93,15 @@ public class MainSceneTreeNodeManager
 
         _uiStatusMenu = new StatusMenuUI(this);
         _uiStatusMenu.Initialize();
+
         _uiInventoryMenu = new InventoryMenuUI(this);
+
         _uiNeiGongMenu = new NeiGongMenuUI(this);
+        _uiNeiGongMenu.Initialize();
+
         _uiCardMenu = new CardMenuUI(this);
         _uiCardMenu.Initialize();
+
         _uiSocialMenu = new SocialMenuUI(this);
     }
 
@@ -114,10 +131,192 @@ public class MainSceneTreeNodeManager
                 localSuccess = ShowAvailableChoices();
                 break;
 
+            case DoActionKey.InitializeCardMenuComponents:
+                localSuccess = InitializeCardMenuComponents(out outputParams);
+                break;
+
+            case DoActionKey.InitializeNeiGongMenuComponents:
+                localSuccess = InitializeNeiGongMenuComponents(out outputParams);
+                break;
+
+            case DoActionKey.UpdateNeiGongDetail:
+                localSuccess = UpdateNeiGongDetail(inputParams);
+                break;
+
+            case DoActionKey.UpdateNeiGongCAPanel:
+                localSuccess = UpdateNeiGongCAPanel(inputParams);
+                break;
+
+            case DoActionKey.ClearCAPanel:
+                localSuccess = ClearCAPanel(out outputParams);
+                break;
+
+            case DoActionKey.PracticeNeiGong:
+                localSuccess = PracticeNeiGong();
+                break;
+
             default:
                 break;
         }
         return localSuccess;
+    }
+
+    public bool ShowChoiceDescrptionPanel(Choice choice)
+    {
+        _mChoiceManager.ShowChoiceDescriptionPanel(choice);
+        return true;
+    }
+
+    public bool HideChoiceDescriptionPanel()
+    {
+        _mChoiceManager.HideChoiceDescriptionPanel();
+        return true;
+    }
+
+    public bool PracticeNeiGong()
+    {
+        
+        NeiGong ng = _mNeiGongManager.GetSpecificNeiGong(_mNeiGongManager.SelectedNeiGongId);
+        int chapterIndex = _mNeiGongManager.CurChapterIndex;
+        NeiGongChapter chapter = ng.DicChapters[chapterIndex];
+
+        //扣减相应条件所需的数值
+
+        //将chapter状态改为已修炼
+        if (!ng.ListCompleteChapterIndex.Contains(chapterIndex))
+        {
+            ng.ListCompleteChapterIndex.Add(chapterIndex);
+        }
+        chapter.IsComplete = true;
+        _uiNeiGongMenu.ListChapterInstance[chapterIndex].ChapterComplete();
+        
+        //更新title显示的功法修炼等级
+        GameObject titleInstance = _uiNeiGongMenu.GetNeiGongTitleInstance(_mNeiGongManager.SelectedNeiGongId);
+        titleInstance.GetComponent<NeiGongTitleInstance>().UpdateLevelValue();
+
+
+        return true;
+    }
+
+    //----------------TBD: Add to DoAction-----------------//
+    public bool CheckNeiGongCondition(string[] condition)
+    {
+        bool isConditionPass = false;
+        string key = condition[0];
+
+        switch (key)
+        {
+            case "HpCost":
+                int hpValue;
+                int.TryParse(condition[1], out hpValue);
+                if(_mPlayerManager.PlayerAttribute.CurHp > hpValue)
+                {
+                    isConditionPass = true;
+                }
+                break;
+
+            case "ExpCost":
+                int expValue;
+                int.TryParse(condition[1], out expValue);
+                if(_mNeiGongManager.ForcePointValue >= expValue)
+                {
+                    isConditionPass = true;
+                }
+                break;
+
+            case "ShenFaCost":
+                int shenFaValue;
+                int.TryParse(condition[1], out shenFaValue);
+                if(_mPlayerManager.PlayerAttribute.ShenFaValue - 1> shenFaValue)
+                {
+                    isConditionPass = true;
+                }
+                break;
+
+            case "SpotRequire":
+                //check player cur location
+                isConditionPass = true;
+                break;
+
+            default:
+                break;
+        }
+        return isConditionPass;
+    }
+
+    public bool UpdateNeiGongCAPanel(string indexString)
+    {
+        int index;
+        int.TryParse(indexString, out index);
+        _mNeiGongManager.CurChapterIndex = index;
+        NeiGong ng = _mNeiGongManager.GetSpecificNeiGong(_mNeiGongManager.SelectedNeiGongId);
+        NeiGongChapter chapter = ng.DicChapters[index];
+        _uiNeiGongMenu.UpdateCAPanel(chapter);
+
+        return true;
+    }
+
+    public bool ClearCAPanel(out string error)
+    {
+        error = "";
+        _mNeiGongManager.CurChapterIndex = -1;
+        _uiNeiGongMenu.ClearCAPanel();
+        return true;
+    }
+
+    public bool UpdateNeiGongDetail(string selectedId)
+    {
+        NeiGong ng = _mNeiGongManager.GetSpecificNeiGong(selectedId);
+        _mNeiGongManager.SelectedNeiGongId = selectedId;
+
+        _uiNeiGongMenu.UpdateNeiGongDetail(ng);
+        return true;
+    }
+
+    public bool InitializeNeiGongMenuComponents(out string error)
+    {
+        error = "";
+
+        int forcePoint = _mNeiGongManager.ForcePointValue;
+        _uiNeiGongMenu.TForcePoints.SetText(forcePoint.ToString());
+
+        Dictionary<string, NeiGong> dicAllNeiGong = _mNeiGongManager.DicAllNeiGong;
+        string curId = _mNeiGongManager.SelectedNeiGongId;
+       
+        _uiNeiGongMenu.InitializeTitleList(dicAllNeiGong, curId);
+        return true;
+    }
+
+    public bool AddCardToCurGroup(Card card)
+    {
+        CardGroup curGroup = _mCardManager.CurCardGroup;
+        _uiCardMenu.AddCardInstanceToGroup(card, curGroup);
+        return true;
+    }
+
+    public bool RemoveCardFromCurGroup(Card card)
+    {
+        CardGroup curGroup = _mCardManager.CurCardGroup;
+        bool isSuccess = curGroup.RemoveCardFromGroup(card);
+        return isSuccess;
+    }
+
+    public bool InitializeCardMenuComponents(out string error)
+    {
+        error = "";
+        List<Card> listAllCard = _mCardManager.ListAllCards;
+        int allCardCount = listAllCard.Count;
+        List<CardGroup> listCardGroup = _mCardManager.ListCardGroups;
+        CardGroup curGroup = _mCardManager.CurCardGroup;
+
+        _uiCardMenu.TotalCardCount = allCardCount.ToString();
+        _uiCardMenu.CurGroupName = curGroup.GroupName;
+        _uiCardMenu.InitializeAllCardsInstance(listAllCard);
+        _uiCardMenu.InitializeCardGroupDetailInstance(listCardGroup);
+        curGroup.GroupDetailInstance.SetActive(true);
+
+        return true;
+
     }
 
     public bool MakeChoice(ChoiceInstance instance)

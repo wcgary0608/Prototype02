@@ -16,6 +16,12 @@ public class CardMenuUI : IUserInterface
     private GameObject _oCardGroupContent;
 
     private TextMeshProUGUI _tCurGroupCount;
+    public string CurGroupCount
+    {
+        set { _tCurGroupCount.SetText(value); }
+    }
+
+    private GameObject _oCardGroupDetail;
 
     private Button _btnCloseAllocationPanel;
 
@@ -23,13 +29,25 @@ public class CardMenuUI : IUserInterface
 
     private Button _btnDeleteGroup;
 
-    private GameObject _oCurGroupContent;
-
     private TextMeshProUGUI _tTotalCardCount;
+    public string TotalCardCount
+    {
+        set { _tTotalCardCount.SetText(value); }
+    }
 
     private TextMeshProUGUI _tCurGroupName;
+    public string CurGroupName
+    {
+        set { _tCurGroupName.SetText(value); }
+    }
 
     private GameObject _oAllCardContent;
+
+    private GameObject _pfbCardInstance;
+
+    private GameObject _pfbCardGroupDetailInstance;
+
+    private GameObject _pfbGroupCardInstance;
 
     public CardMenuUI(MainSceneTreeNodeManager center) : base(center)
     {
@@ -39,7 +57,15 @@ public class CardMenuUI : IUserInterface
     public override void Initialize()
     {
         GetUIComponents();
+        LoadPrefabs();
         HideRootUI();
+
+        string outputParams = "";
+        if(!_managerCenter.DoAction(DoActionKey.InitializeCardMenuComponents, out outputParams))
+        {
+            //log error
+        }
+
     }
 
     public override void Release()
@@ -66,8 +92,8 @@ public class CardMenuUI : IUserInterface
 
         var cardGroupList = UnityTool.FindChildGameObject(_oAllocationPanel, MainUIComponentCollection.CardGroupList);
         var cardGroupViewport = UnityTool.FindChildGameObject(cardGroupList, MainUIComponentCollection.Viewport);
-        var curCardsList = UnityTool.FindChildGameObject(_oAllocationPanel, MainUIComponentCollection.CurCardsList);
-        var curCardsViewport = UnityTool.FindChildGameObject(curCardsList, MainUIComponentCollection.Viewport);
+        
+
         var allCardList = UnityTool.FindChildGameObject(_oRootUI, MainUIComponentCollection.AllCardList);
         var allCardViewport = UnityTool.FindChildGameObject(allCardList, MainUIComponentCollection.Viewport);
 
@@ -84,7 +110,7 @@ public class CardMenuUI : IUserInterface
         _btnCloseAllocationPanel = UITool.GetUIComponent<Button>(_oAllocationPanel, MainUIComponentCollection.CloseAllocationPanelBtn);
         _btnAddGroup = UITool.GetUIComponent<Button>(_oAllocationPanel, MainUIComponentCollection.AddGroupBtn);
         _btnDeleteGroup = UITool.GetUIComponent<Button>(_oAllocationPanel, MainUIComponentCollection.DeleteGroupBtn);
-        _oCurGroupContent = UnityTool.FindChildGameObject(curCardsViewport, MainUIComponentCollection.Content);
+        _oCardGroupDetail = UnityTool.FindChildGameObject(_oAllocationPanel, MainUIComponentCollection.CardGroupDetail);
 
         _tTotalCardCount = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.TotalCardCount);
         _tCurGroupName = UITool.GetUIComponent<TextMeshProUGUI>(_oRootUI, MainUIComponentCollection.CurGroupName);
@@ -92,9 +118,53 @@ public class CardMenuUI : IUserInterface
         _oAllCardContent = UnityTool.FindChildGameObject(allCardViewport, MainUIComponentCollection.Content);
     }
 
-    private void InitializeUIValue()
+    private void LoadPrefabs()
     {
-
+        _pfbCardInstance = Resources.Load<GameObject>("Prefabs/UI/CardMenu/CardInstance");
+        _pfbCardGroupDetailInstance = Resources.Load<GameObject>("Prefabs/UI/CardMenu/CardGroupDetailInstance");
+        _pfbGroupCardInstance = Resources.Load<GameObject>("Prefabs/UI/CardMenu/GroupCardInstance");
     }
+
+    public void InitializeAllCardsInstance(List<Card> listAllCard)
+    {
+        foreach(Card c in listAllCard)
+        {
+            GameObject cardInstance = GameObject.Instantiate(_pfbCardInstance, _oAllCardContent.transform);
+            cardInstance.GetComponent<CardInstance>().InitializeCardInstance(c, _managerCenter);
+        }
+    }
+
+    public void InitializeCardGroupDetailInstance(List<CardGroup> listGroup)
+    {
+        foreach(CardGroup cg in listGroup)
+        {
+            GameObject groupInstance = GameObject.Instantiate(_pfbCardGroupDetailInstance, _oCardGroupDetail.transform);
+            cg.SetCardGroupInstance(groupInstance);
+
+            //数据导入Group包含的Card
+            List<Card> listCards = new List<Card>();
+            InitializeCardGroup(cg, listCards);
+            groupInstance.SetActive(false);
+        }
+    }
+
+    public void InitializeCardGroup(CardGroup cardGroup, List<Card> listCards)
+    {
+        foreach(Card c in listCards)
+        {
+            GameObject groupCardInstance = GameObject.Instantiate(_pfbGroupCardInstance, cardGroup.GroupCardsContent.transform);
+            groupCardInstance.GetComponent<GroupCardInstance>().InitializeGroupCardInstance(c);
+
+            cardGroup.DicGroupCards.Add(c, groupCardInstance);
+        }
+    }
+
+    public void AddCardInstanceToGroup(Card card, CardGroup cardGroup)
+    {
+        GameObject groupCardInstance = GameObject.Instantiate(_pfbGroupCardInstance, cardGroup.GroupCardsContent.transform);
+        groupCardInstance.GetComponent<GroupCardInstance>().InitializeGroupCardInstance(card);
+        cardGroup.DicGroupCards.Add(card, groupCardInstance);
+    }
+
 
 }
