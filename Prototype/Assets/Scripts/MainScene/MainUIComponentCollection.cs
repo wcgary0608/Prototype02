@@ -104,6 +104,7 @@
         public const string DeleteGroupBtn = "DeleteGroupBtn";
         public const string TotalCardCount = "TotalCardCount";
         public const string CurGroupName = "CurGroupName";
+        public const string CardGroupDetail = "CardGroupDetail";
 
         //MenuUI
         public const string StatusMenuBtn = "StatusMenuBtn";

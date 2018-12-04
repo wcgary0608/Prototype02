@@ -1,4 +1,6 @@
-﻿public class SocialManager : IGameManager
+﻿
+
+public class SocialManager : IGameManager
 {
     public SocialManager(MainSceneTreeNodeManager center) : base(center)
     {

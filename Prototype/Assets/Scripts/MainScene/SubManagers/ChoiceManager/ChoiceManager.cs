@@ -11,6 +11,8 @@ public class ChoiceManager : IGameManager
 
     private GameObject _oAvailableChoices;
 
+    private GameObject _oChoiceDescriptionPanel;
+
     private GameObject _pfbMoveChoice;
 
     private GameObject _pfbSkillChoice;
@@ -43,6 +45,7 @@ public class ChoiceManager : IGameManager
     public override void Initialize()
     {
         GetRelatedGameObjects();
+        InitializeGameObjects();
         LoadPrefabs();
 
         _curChoice = new Choice(ChoiceTypeEnum.move);   
@@ -67,6 +70,12 @@ public class ChoiceManager : IGameManager
         _oChoicesPanel = UnityTool.FindChildGameObject(MainPart, "ChoicesPanel");
         _oPastChoices = UnityTool.FindChildGameObject(_oChoicesPanel, "PastChoices");
         _oAvailableChoices = UnityTool.FindChildGameObject(_oChoicesPanel, "AvailableChoices");
+        _oChoiceDescriptionPanel = UnityTool.FindChildGameObject(_oChoicesPanel, "ChoiceDescriptionPanel");
+    }
+
+    private void InitializeGameObjects()
+    {
+        _oChoiceDescriptionPanel.SetActive(false);
     }
 
     private void LoadPrefabs()
@@ -78,6 +87,16 @@ public class ChoiceManager : IGameManager
         _pfbBattleChoice = Resources.Load<GameObject>(_choicePrefabPath + "BattleChoice");
         _pfbSocialChoice = Resources.Load<GameObject>(_choicePrefabPath + "SocialChoice");
 
+    }
+
+    public void ShowChoiceDescriptionPanel(Choice choice)
+    {
+        _oChoiceDescriptionPanel.SetActive(true);
+    }
+
+    public void HideChoiceDescriptionPanel()
+    {
+        _oChoiceDescriptionPanel.SetActive(false);
     }
 
     public void MakeChoice(ChoiceInstance instance)
@@ -99,7 +118,7 @@ public class ChoiceManager : IGameManager
 
         instance.transform.position = _originPoint;
         _curChoiceInstance = instance;
-        _curChoice = instance.GetChoice();
+        _curChoice = instance.Choice;
         instance.gameObject.SetActive(true);
 
         //clear availabelChoicesList
@@ -170,7 +189,7 @@ public class ChoiceManager : IGameManager
 
         }
 
-        switch (choice.GetChoiceType())
+        switch (choice.ChoiceType)
         {
             case ChoiceTypeEnum.move:
                 tempChoice = GameObject.Instantiate(_pfbMoveChoice, container.transform);

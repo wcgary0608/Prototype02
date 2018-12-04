@@ -6,13 +6,19 @@ using UnityEngine;
 
 public class Choice{
 
+    public string ChoiceName;
 
+    public ChoiceTypeEnum ChoiceType;
 
-    private ChoiceTypeEnum _choiceType;
+    public string ChoiceDescription;
+
+    public int ActionValueCost;
+
+    public string ChoiceLocation;
 
     public Choice(ChoiceTypeEnum type)
     {
-        _choiceType = type;
+        ChoiceType = type;
     }
 
     public void InitializeChoice()
@@ -20,10 +26,6 @@ public class Choice{
         
     }
 
-    public ChoiceTypeEnum GetChoiceType()
-    {
-        return _choiceType;
-    }
 
 
 }
