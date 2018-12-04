@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using Assets.Scripts.MainScene;
 
-public enum ChoiceInstanceStatusEnum
-{
-    current, available
-}
-
 public class ChoiceManager : IGameManager
 {
 

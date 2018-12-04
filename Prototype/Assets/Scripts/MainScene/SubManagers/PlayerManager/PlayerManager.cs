@@ -4,11 +4,6 @@ using UnityEngine;
 /// <summary>
 /// TBD:GiftList / Connection with ChoiceManager / Equipment
 /// </summary>
-public enum SkillTypeEnum
-{
-    fishing, hunting, medicine, cooking, 
-    music, chess, write, draw
-}
 
 public class PlayerManager : IGameManager
 {

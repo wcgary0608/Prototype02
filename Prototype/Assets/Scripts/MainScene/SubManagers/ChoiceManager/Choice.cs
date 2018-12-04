@@ -1,12 +1,8 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.MainScene;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ChoiceTypeEnum
-{
-    move, skill, life, heal, battle, social,
-    fix, special
-}
 
 public class Choice{
 

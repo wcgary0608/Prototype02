@@ -7,6 +7,10 @@
         public const string SwitchBuffDescription = "Switch_Buff_Description";
         public const string InitializeMainPartComponents = "Initialize_Main_Part_Components";
         public const string ShowAvailableChoices = "Show_Available_Choices";
+        public const string InvUseButtonOnClick = "Inventory_Use_Button_On_Click";
+        public const string InvDropButtonOnClick = "Inventory_Drop_Button_On_Click";
+        public const string InvSetChosenItem = "Inventory_Set_Chosen_Item";
+        public const string InvGetItemList = "Inventory_Get_Item_List";
         public const string InitializeCardMenuComponents = "Initialize_Card_Menu_Components";
         public const string AddCardToCurGroup = "AddCardToCurGroup";
         public const string RemoveCardFromCurGroup = "RemoveCardFromCurGroup";
