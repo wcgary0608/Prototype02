@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace Assets.Scripts.MainScene.Item
+namespace Assets.Scripts.MainScene.SubManagers.InventoryManager
 {
-    internal class Item
+    public class Item
     {
         private string _name = "New Item";
         private int _id = -1;
-        private Sprite _icon = null;
+        private Image _icon = null;
         private string _description ="No Description";
         private bool _canStack = false;
+        private GameObject _itemObject = null;
         private Dictionary<string, int> _stats = new Dictionary<string, int>();
 
         /// <summary>
@@ -20,12 +22,13 @@ namespace Assets.Scripts.MainScene.Item
         /// <param name="Description">the item description, no limit at this moment</param>
         /// <param name="Icon">sprite to use</param>
         /// <param name="Stats">stats dictionary</param>
-        public Item(int Id, string Name, string Description, Sprite Icon, Dictionary<string, int> Stats)
+        public Item(int Id, string Name, string Description, Image Icon, bool CanStack, Dictionary<string, int> Stats)
         {
             this._id = Id;
             this._name = Name;
             this._description = Description;
             this._icon = Icon;
+            this._canStack = CanStack;
             this._stats = Stats;
         }
 
@@ -42,15 +45,43 @@ namespace Assets.Scripts.MainScene.Item
             this._stats = itemToCopy._stats;
         }
 
-        public int Id { get; set; }
+        public int Id {
+            get { return _id; }
+            set { _id = value; }
+        }
 
-        public Sprite Icon { get; set; }
+        public Image Icon
+        {
+            get { return _icon; }
+            set { _icon = value; }
+        }
 
-        public string Description { get; set; }
+        public string Description
+        {
+            get { return _description; }
+            set { _description = value; }
+        }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
 
-        public bool CanStack { get; set; }
+        public bool CanStack
+        {
+            get { return _canStack; }
+            set { _canStack = value; }
+        }
+
+        public GameObject ItemObject
+        {
+            get { return _itemObject; }
+            set { _itemObject = value; }
+        }
+
+
+
 
         /// <summary>
         /// set the a stat of the item

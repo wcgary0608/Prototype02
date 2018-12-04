@@ -3,11 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum TextInMainPartEnum
-{
-    hpValue, mpValue, actionValue, month, locationName
-}
-
 public class MainPartUI : IUserInterface
 {
     private GameObject _oStatusPanel;

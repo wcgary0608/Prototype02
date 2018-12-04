@@ -1,18 +1,30 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.Scripts.MainScene.Item
+namespace Assets.Scripts.MainScene.SubManagers.InventoryManager
 {
-    internal class ItemDatabase
+    public class ItemDatabase
     {
+        #region Singleton
+        private static ItemDatabase _instance;
+
+        public static ItemDatabase Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new ItemDatabase();
+                return _instance;
+            }
+        }
+
+        #endregion
+
         private Dictionary<int, Item> _database = new Dictionary<int, Item>();
 
-        /// <summary>
-        /// item database initializer
-        /// </summary>
-        /// <param name="itemDatabase"></param>
-        public ItemDatabase(Dictionary<int, Item> itemDatabase)
+
+        public ItemDatabase()
         {
-            this._database = itemDatabase;
+
         }
 
         /// <summary>
@@ -21,6 +33,14 @@ namespace Assets.Scripts.MainScene.Item
         /// </summary>
         public void initialize()
         {
+            //testing purpose only
+            Dictionary<string, int> itemStats = new Dictionary<string, int>();
+            itemStats.Add("power", 1);
+            Item tempItem1 = new Item(1, "test item 1", "lalalalalalalalalala", null, false, itemStats);
+            Add(tempItem1);
+            Item tempItem2 = new Item(2, "test item 2", "booo booo booo boo boo", null, true, itemStats);
+            Add(tempItem2);
+
         }
 
         /// <summary>
@@ -33,7 +53,7 @@ namespace Assets.Scripts.MainScene.Item
         public bool Add(Item item)
         {
             int Id = item.Id;
-            if (Id == -1)
+            if (Id == -1 || Id == 0)
             {
                 return false;
             }

@@ -1,4 +1,6 @@
-﻿public class MainScene : ISceneState
+﻿using Assets.Scripts.MainScene.SubManagers.InventoryManager;
+
+public class MainScene : ISceneState
 {
     private MainSceneTreeNodeManager m_ManagerCenter;
 
@@ -8,8 +10,11 @@
 
     public override void StateBegin()
     {
-        m_ManagerCenter = new MainSceneTreeNodeManager(m_Controller);
+        //initialize databse
+        ItemDatabase.Instance.initialize();
 
+        //initialize managers
+        m_ManagerCenter = new MainSceneTreeNodeManager(m_Controller);
         m_ManagerCenter.InitializeManagerCenter();
     }
 

@@ -2,6 +2,8 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using System.Text;
 
 public class MainSceneTreeNodeManager
 {
@@ -26,12 +28,10 @@ public class MainSceneTreeNodeManager
 
     //GameManagers
     private InputManager _mInputManager;
-
     private PlayerManager _mPlayerManager;
-
     private WorldManager _mWorldManager;
-
     private ChoiceManager _mChoiceManager;
+    private InventoryManager _mInventoryManager;
 
     public MainSceneTreeNodeManager(SceneStateController controller)
     {
@@ -69,6 +69,9 @@ public class MainSceneTreeNodeManager
 
         _mChoiceManager = new ChoiceManager(this);
         _mChoiceManager.Initialize();
+
+        _mInventoryManager = new InventoryManager(this);
+        _mInventoryManager.Initialize();
 
     }
 
@@ -114,11 +117,67 @@ public class MainSceneTreeNodeManager
                 localSuccess = ShowAvailableChoices();
                 break;
 
+            case DoActionKey.InvDropButtonOnClick:
+                localSuccess = InvDropButtonOnClick();
+                break;
+
+            case DoActionKey.InvUseButtonOnClick:
+                localSuccess = InvUseButtonOnClick();
+                break;
+
+            case DoActionKey.InvSetChosenItem:
+                localSuccess = InvSetChosenItem(inputParams);
+                break;
+
+            case DoActionKey.InvGetItemList:
+                localSuccess = InvGetItemList(out outputParams);
+                break;
+
             default:
                 break;
         }
         return localSuccess;
     }
+
+    private bool InvGetItemList(out string Ids)
+    {
+        Ids = String.Empty;
+        ICollection<int> IdCollection = _mInventoryManager.GetItemIds();
+        if (IdCollection == null || IdCollection.Count <= 0)
+        {
+            return false;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        foreach (int i in IdCollection)
+        {
+            sb.Append(i.ToString());
+            sb.Append("^");
+        }
+        Ids = sb.ToString();
+        return true;
+    }
+
+
+    private bool InvSetChosenItem(string itemId) {
+        int Id = int.MinValue;
+        if (!int.TryParse(itemId, out Id))
+        {
+            return false;
+        }
+        return _mInventoryManager.SetChosenItem(Id);
+    }
+
+    private bool InvUseButtonOnClick()
+    {
+        return _mInventoryManager.UseChosenItem();
+    }
+
+    private bool InvDropButtonOnClick()
+    {
+        return _mInventoryManager.RemoveChosenItem();
+    }
+
 
     public bool MakeChoice(ChoiceInstance instance)
     {
@@ -271,7 +330,7 @@ public class MainSceneTreeNodeManager
 
     private bool SwitchMenuUI(out string error)
     {
-        error = "";
+        error = string.Empty;
         if (_uiMenu == null)
         {
             error = "Fail to load menu UI. Menu UI is not initialized properly";

@@ -14,6 +14,7 @@
         public const string ItemImage = "ItemImage";
         public const string ItemName = "ItemName";
         public const string ItemDescription = "ItemDescription";
+        public const string ItemText = "ItemText";
         public const string UseBtn = "UseBtn";
         public const string DropBtn = "DropBtn";
         public const string MainPartUI = "MainPartUI";

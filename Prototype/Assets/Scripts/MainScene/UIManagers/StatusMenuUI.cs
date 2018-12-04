@@ -3,17 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.MainScene;
 
-public enum TextInStatusMenuEnum
-{
-    hpValue, mpValue, buffDescription, 
-    playerName,
-    moveProb, skillProb, lifeProb, healProb, battleProb, socialProb,
-    geValue, fameValue, shenFaValue, luckValue,
-    weaponName, accessoryName
-}
-
 public class StatusMenuUI : IUserInterface
 {
+
     //Basic status panel components
     private Image _imgHpFill;
     private TextMeshProUGUI _tHpValue;

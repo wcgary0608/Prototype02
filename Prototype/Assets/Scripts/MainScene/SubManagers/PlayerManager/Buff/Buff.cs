@@ -1,12 +1,7 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.MainScene;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
-public enum BuffTypeEnum
-{
-    buff,debuff
-}
 
 public class Buff{
 
